@@ -785,9 +785,8 @@ function dossier(k) {
       <div class="row">
         <div class="av"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /></div>
         <div class="who"><b>@${k.handle}</b><small>${g.label}</small></div>
-        <div class="grade g${g.letter}">${g.letter}</div>
+        <div class="grade g${g.letter}" style="width:auto;padding:0 8px">${g.letter} ${g.score==null?"":g.score}</div>
       </div>
-      <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
       <div class="stats">
         <div class="stat"><em>Collected art</em><strong>${art}</strong></div>
         <div class="stat"><em>Votes</em><strong>${tally(k.handle).total}</strong></div>
