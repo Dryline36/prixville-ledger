@@ -606,7 +606,7 @@ const WALLET_LABEL = { signed: "Confirmed", self: "Theirs", funded: "Paid by the
 let rumors = {};
 try { rumors = JSON.parse(localStorage.getItem("holdgrade-rumors") || "{}"); } catch (e) { rumors = {}; }
 function walletList(handle) {
-  const extra = (rumors[handle] || []).map(r => ({ addr: r.addr, chain: r.chain || "?", status: "rumor", note: "You added this tip on this device. Not confirmed." }));
+  const extra = (rumors[handle] || []).filter(r => r.linked).map(r => ({ addr: r.addr, chain: r.chain || "?", status: "funded", note: "Linked on the weekly check." }));
   return (WALLETS[handle] || []).concat(extra);
 }
 const CROWD = {
@@ -812,7 +812,8 @@ function walletBlock(k) {
     <div class="card">
       ${list.map(w => `<div class="wrow"><div><div class="waddr">${w.addr}</div><p class="note" style="margin:3px 0 0">${w.chain} · ${w.note}</p></div><span class="wstatus w-${w.status}">${WALLET_LABEL[w.status]}</span></div>`).join("")}
       <input class="tip" id="tip" placeholder="Wallet people say is theirs" />
-      <div class="vote"><button id="add-tip">Add it</button></div>
+      <div class="vote"><button id="add-tip">Send for the weekly check</button></div>
+      <p class="note">${(rumors[k.handle] || []).filter(r => !r.linked).length} waiting. A tip is not added. Once a week it is checked against the main wallet on Etherscan, Basescan, and the other explorers. It shows here only if a transfer or a fund link is found.</p>
     </div>`;
 }
 function bindWallet(handle) {
@@ -822,7 +823,7 @@ function bindWallet(handle) {
     const addr = (document.getElementById("tip").value || "").trim();
     if (addr.length < 4) return;
     rumors[handle] = rumors[handle] || [];
-    rumors[handle].push({ addr, chain: "tip" });
+    rumors[handle].push({ addr, chain: "tip", linked: false });
     localStorage.setItem("holdgrade-rumors", JSON.stringify(rumors));
     draw();
   };
