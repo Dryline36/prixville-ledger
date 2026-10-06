@@ -271,7 +271,7 @@ const KOLS = [
     wallet: "OpenSea TMA420", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2097344208659238912/dq19djkT.jpg",
     bio: "Grade B, 88, Incomplete. Founder of Funkari. OpenSea username TMA420, joined Dec 2021, one public wallet 0xdbd4…c495. No full address on the extract. No accusation thread.",
-    events: [{ kind: "post", t: "May 22 2026", text: "Said he swept floors and was sometimes a top signal on purpose. No matched fill on this card." }],
+    events: [{ kind: "post", t: "May 22 2026", text: "Said he swept floors and was sometimes a top signal on purpose. No sale tied to a post." }],
     calls: []
   },
     {
@@ -602,7 +602,7 @@ const WALLETS = {
     { addr: "0x5e10…d8a", chain: "ETH", status: "rumor", note: "Old address a reply claimed in 2024. No funding path." }
   ]
 };
-const WALLET_LABEL = { signed: "Signed", self: "Self-linked", funded: "Funded by linked", payout: "Payout sheet", cluster: "Shared funder", rumor: "Rumor" };
+const WALLET_LABEL = { signed: "Confirmed", self: "Theirs", funded: "Paid by theirs", payout: "Payout", cluster: "Shared", rumor: "Unconfirmed" };
 let rumors = {};
 try { rumors = JSON.parse(localStorage.getItem("holdgrade-rumors") || "{}"); } catch (e) { rumors = {}; }
 function walletList(handle) {
@@ -676,7 +676,7 @@ function gradeKol(k) {
     if (!hit && !(k.wallet && !String(k.wallet).startsWith("no "))) return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
     const score = 88 - hit;
     const letter = score >= 80 ? "B" : "C";
-    return { score, letter, label: "Incomplete", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 6", "warn"], ["No public 1/1 buy costs 6", "warn"]] };
+    return { score, letter, label: "No sale found", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 6", "warn"], ["No public 1/1 buy costs 6", "warn"]] };
   }
   const parts = k.calls.map(scoreCall);
   const avg = (key) => parts.reduce((s, p) => s + p[key], 0) / parts.length;
@@ -748,9 +748,9 @@ function board() {
           <div class="grade g${k.g.letter}">${k.g.letter}</div>
         </div>
         <div class="stats">
-          <div class="stat"><em>Bought art</em><strong>${k.artPattern?"Yes":k.artChecked?"No":"—"}</strong></div>
+          <div class="stat"><em>Collected art</em><strong>${k.artPattern?"Yes":k.artChecked?"No":"—"}</strong></div>
           <div class="stat"><em>Votes</em><strong>${tally(k.handle).total}</strong></div>
-          <div class="stat"><em>Sold after post</em><strong>${k.g.dump?"Yes":"No"}</strong></div>
+          <div class="stat"><em>Sold after posting</em><strong>${k.g.dump?"Yes":"No"}</strong></div>
         </div>
       </article>`).join("");
 }
@@ -759,10 +759,10 @@ function voteBlock(k) {
   const t = tally(k.handle);
   const mine = t.mine;
   return `
-    <h3>X crowd · likable?</h3>
+    <h3>Do you like them?</h3>
     <div class="card">
       <div class="row">
-        <div class="who"><b>${t.like}% likable</b><small>${t.up} yes · ${t.down} no · one vote per X account</small></div>
+        <div class="who"><b>${t.like}% say yes</b><small>${t.up} yes · ${t.down} no</small></div>
       </div>
       <div class="bar"><i style="width:${t.like}%;background:var(--purple)"></i></div>
       <div class="vote">
@@ -772,7 +772,7 @@ function voteBlock(k) {
       <div class="reasons">
         ${REASONS.map(([id, label]) => `<button class="${(mine.tags||[]).includes(id)?'on':''}" data-tag="${id}">${label}</button>`).join("")}
       </div>
-      <p class="note" style="margin-top:8px">A vote moves the grade only after 10 ballots, and only by 4 points. It cannot invent a dump. Live votes still need an X login.</p>
+      <p class="note" style="margin-top:8px">10 votes before the score changes.</p>
     </div>`;
 }
 
@@ -789,15 +789,15 @@ function dossier(k) {
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
       <div class="stats">
-        <div class="stat"><em>Bought art</em><strong>${art}</strong></div>
+        <div class="stat"><em>Collected art</em><strong>${art}</strong></div>
         <div class="stat"><em>Votes</em><strong>${tally(k.handle).total}</strong></div>
-        <div class="stat"><em>Sold after post</em><strong>${g.dump?"Yes":"No"}</strong></div>
-        <div class="stat"><em>Accusations</em><strong>${k.accusations||0}</strong></div>
+        <div class="stat"><em>Sold after posting</em><strong>${g.dump?"Yes":"No"}</strong></div>
+        <div class="stat"><em>Complaints</em><strong>${k.accusations||0}</strong></div>
       </div>
     </div>
     ${voteBlock(k)}
     ${walletBlock(k)}
-    <h3>Record</h3>
+    <h3>What we found</h3>
     <div class="card"><div class="tl">
       ${k.events.slice(0,3).map(e => `<div class="ev ${e.kind}"><div class="t">${e.t}</div><p>${e.text}</p></div>`).join("")}
     </div></div>`;
@@ -808,11 +808,11 @@ function walletBlock(k) {
   const rum = list.filter(w => w.status === "rumor").length;
   const linked = list.length - rum;
   return `
-    <h3>Wallets · ${linked} linked · ${rum} rumored</h3>
+    <h3>Wallet</h3>
     <div class="card">
       ${list.map(w => `<div class="wrow"><div><div class="waddr">${w.addr}</div><p class="note" style="margin:3px 0 0">${w.chain} · ${w.note}</p></div><span class="wstatus w-${w.status}">${WALLET_LABEL[w.status]}</span></div>`).join("")}
-      <input class="tip" id="tip" placeholder="Add a rumored wallet" />
-      <div class="vote"><button id="add-tip">File as rumor</button></div>
+      <input class="tip" id="tip" placeholder="Wallet people say is theirs" />
+      <div class="vote"><button id="add-tip">Add it</button></div>
     </div>`;
 }
 function bindWallet(handle) {
