@@ -444,9 +444,18 @@ function scoreCall(c) {
   return { skin, hold, dump, disc };
 }
 
+function accusationHit(k) {
+  const n = k.accusations || 0;
+  const raw = n * 4;
+  return Math.min(12, raw);
+}
 function gradeKol(k) {
+  const hit = accusationHit(k);
   if (!k.calls || !k.calls.length) {
-    return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
+    if (!hit) return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
+    const score = 70 - hit;
+    const letter = score >= 65 ? "C" : "D";
+    return { score, letter, label: letter === "C" ? "Mixed" : "Conflicted", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 12", "warn"]] };
   }
   const parts = k.calls.map(scoreCall);
   const avg = (key) => parts.reduce((s, p) => s + p[key], 0) / parts.length;
@@ -467,7 +476,7 @@ function gradeKol(k) {
   if (k.calls.every(c => c.disclosed) && k.verified) flags.push(["Discloses", "good"]);
   if (k.calls.some(c => c.buyBeforeHours >= 6 && c.soldWithinHours == null)) flags.push(["Buys before posting", "good"]);
   if (k.prix) flags.push(["Prixville bag", "good"]);
-  score = Math.round(clamp(score, 0, 100));
+  score = Math.round(clamp(score - accusationHit(k), 0, 100));
   const letter = score >= 90 ? "A" : score >= 80 ? "B" : score >= 65 ? "C" : score >= 50 ? "D" : "F";
   const label = { A: "Aligned", B: "Credible", C: "Mixed", D: "Conflicted", F: "Extractor" }[letter];
   return { score, letter, label, skin: Math.round(skin), hold: Math.round(hold), dump: Math.round(dump), disc: Math.round(disc), wallet, flags };
@@ -560,7 +569,7 @@ function dossier(k) {
     <button class="back" id="back">← Board</button>
     <div class="card">
       <div class="row">
-        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations. ${k.accusationNote||"Not counted yet."} Does not move the bag grade.</small></div>
+        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations, capped at 12 points. ${k.accusationNote||"Not counted yet."}</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
