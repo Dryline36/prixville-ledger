@@ -665,7 +665,7 @@ function artHit(k) {
 }
 function voteHit(k) {
   const t = tally(k.handle);
-  if (!t.total) return 0;
+  if (t.total < 10) return 0;
   if (t.like >= 60) return -Math.min(4, Math.round((t.like - 50) / 12));
   if (t.like <= 40) return Math.min(4, Math.round((50 - t.like) / 12));
   return 0;
@@ -791,7 +791,8 @@ function dossier(k) {
     <div class="card">
       <div class="row">
         <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations over ${k.years||"?"} years. Cap 6, and only a nudge. ${k.cluster?"Wallet cluster.":k.linked?"Linked wallets, not a cluster.":"No cluster."} ${k.accusationNote||""}</small>
-        <small style="display:block;margin-top:6px">${k.support||0} artist supports. ${k.supportNote||"No public 1/1 buy. That costs 6 on an NFT card. A PFP sweep does not count."}</small></div>
+        <small style="display:block;margin-top:6px">${k.support||0} artist supports. ${k.supportNote||"No public 1/1 buy. That costs 6 on an NFT card. A PFP sweep does not count."}</small>
+        <small style="display:block;margin-top:6px">${tally(k.handle).total} X votes. The grade does not move until 10. Then a no pile costs up to 4, and a yes pile adds up to 4.</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
