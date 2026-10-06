@@ -753,7 +753,7 @@ function renderFilters() {
 
 function board() {
   const hide = new Set(["EvanWeb3", "EmanAbio", "b1ackd0g", "kostascrypto", "GDanezis", "Mysten_Labs", "SuiFoundation", "SuiNetwork", "_smbrian", "_smkotaro", "benli_studiomirai", "0xrooter", "eyezenhour", "lofitheyeti", "rootlets_nft", "PrimeMachin"]);
-  const rows = GRADED.filter(k => passes(k) && !hide.has(k.handle));
+  const rows = GRADED.filter(k => passes(k) && !hide.has(k.handle) && k.photo && k.photo.startsWith("http"));
   document.getElementById("count").textContent = rows.length + " dossiers";
   return `<div class="banner">Tap a name for the record. The board is the grade.</div>` +
     rows.map(k => `
