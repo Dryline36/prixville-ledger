@@ -47,6 +47,7 @@
   .gB { background: transparent; color: var(--text); }
   .gC { background: var(--amber-dim); color: var(--coral); }
   .gD, .gF { background: var(--red-dim); color: var(--red); }
+  .g– { background: transparent; color: var(--muted); }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
   .stat { background: transparent; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 0 0; }
   .stat em { display: block; font-style: normal; color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
@@ -137,6 +138,57 @@ const FILTERS = ["All", "Aligned", "Extractors", "Unverified", "Prixville"];
 
 /** Simulated dossiers. Not live chain data. Shape is the production schema. */
 const KOLS = [
+  {
+    handle: "garyvee", name: "Gary Vaynerchuk", followers: "3.1m", chain: "ETH",
+    wallet: "none confirmed", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2104354219377516544/oSNAfvnO.jpg",
+    bio: "VeeFriends. Public post on Sep 28 asking a collector for an ETH wallet. No wallet confirmed here.",
+    events: [
+      { kind: "post", t: "Sep 28", text: "Offered a free VeeFriends NFT to top-10 collectors, then asked “ETH wallet?” No address in that post." }
+    ],
+    calls: []
+  },
+  {
+    handle: "beeple", name: "beeple", followers: "1.15m", chain: "—",
+    wallet: "none confirmed", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/264316321/beeple_headshot_beat_up.jpg",
+    bio: "Everydays. The name outsiders know from the Christie’s sale. No public trading wallet tied here.",
+    events: [
+      { kind: "post", t: "Public record", text: "Known for the daily series and the 2021 Christie’s sale. No matched buy or sell on a linked wallet." }
+    ],
+    calls: []
+  },
+  {
+    handle: "punk6529", name: "6529", followers: "488k", chain: "ETH",
+    wallet: "punk6529.eth public", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/1784231403325943808/PBDWE07Y.jpg",
+    bio: "Collector. The Memes, CC0. ENS is public. Not a signed Holdgrade wallet.",
+    events: [
+      { kind: "post", t: "ENS", text: "punk6529.eth resolves publicly. Manager is tx3.6529museum.eth. No post-to-fill match yet." }
+    ],
+    calls: []
+  },
+  {
+    handle: "DeeZe", name: "DeeZe", followers: "NFT collector", chain: "ETH",
+    wallet: "headie.eth on 6529.io", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2079300026929389568/JcQpqOIQ.jpg",
+    bio: "Hosts We Do A Little. 6529.io lists headie.eth as the primary address. Not signed here.",
+    events: [
+      { kind: "post", t: "Oct 3", text: "Recent posts are holding and shitposting, not a collection call with a fill beside it." }
+    ],
+    calls: []
+  },
+  {
+    handle: "pranksy", name: "Pranksy", followers: "collector", chain: "ETH",
+    wallet: "none confirmed", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2087231953594429440/xDG7H1PJ.jpg",
+    bio: "Collector. Sorare and cardboard. No wallet confirmed for this card.",
+    events: [
+      { kind: "post", t: "Oct 5", text: "Posted that some NBA guys bought or traded for his apes. Historical talk, not a matched fill." }
+    ],
+    calls: []
+  },
+
   {
     handle: "floorpriest", name: "Floor Priest", followers: "48.2k", chain: "ETH",
     wallet: "0x91c…a14 signed", verified: true, prix: false,
@@ -229,6 +281,21 @@ const KOLS = [
 ];
 
 const WALLETS = {
+  garyvee: [
+    { addr: "none confirmed", chain: "ETH", status: "rumor", note: "Sep 28 post asked for an ETH wallet. No address came back in the public post. A garyvvee.eth page points at a different social graph, so it is not listed." }
+  ],
+  beeple: [
+    { addr: "none confirmed", chain: "—", status: "rumor", note: "No public trading wallet tied to this card." }
+  ],
+  punk6529: [
+    { addr: "punk6529.eth", chain: "ETH", status: "self", note: "Public ENS. Resolves to 0xfD2…28793. Manager tx3.6529museum.eth. Not a signed challenge." }
+  ],
+  DeeZe: [
+    { addr: "headie.eth", chain: "ETH", status: "self", note: "6529.io profile lists this as the primary address. Not signed here." }
+  ],
+  pranksy: [
+    { addr: "none confirmed", chain: "ETH", status: "rumor", note: "No public wallet confirmed for this card." }
+  ],
   floorpriest: [
     { addr: "0x91c4…a14", chain: "ETH", status: "signed", note: "Signed the Holdgrade challenge from this wallet." },
     { addr: "floorpriest.eth", chain: "ETH", status: "self", note: "ENS in the X bio. Resolves to the signed wallet." },
@@ -309,6 +376,9 @@ function scoreCall(c) {
 }
 
 function gradeKol(k) {
+  if (!k.calls || !k.calls.length) {
+    return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
+  }
   const parts = k.calls.map(scoreCall);
   const avg = (key) => parts.reduce((s, p) => s + p[key], 0) / parts.length;
   const skin = avg("skin");
@@ -373,13 +443,13 @@ function board() {
     rows.map(k => `
       <article class="card tap" data-h="${k.handle}">
         <div class="row">
-          <div class="av"><img src="shots/${k.handle}.jpg" alt="" /></div>
+          <div class="av"><img src="${k.photo || ('shots/' + k.handle + '.jpg')}" alt="" /></div>
           <div class="who"><b>@${k.handle}</b><small>${k.followers} · ${k.chain} · ${k.g.label}</small></div>
           <div class="grade g${k.g.letter}">${k.g.letter}</div>
         </div>
         <div class="stats">
-          <div class="stat"><em>Bag grade</em><strong>${k.g.score}</strong></div>
-          <div class="stat"><em>Likable</em><strong>${tally(k.handle).like}%</strong></div>
+          <div class="stat"><em>Bag grade</em><strong>${k.g.score==null?'—':k.g.score}</strong></div>
+          <div class="stat"><em>Likable</em><strong>${CROWD[k.handle]?tally(k.handle).like+'%':'—'}</strong></div>
           <div class="stat"><em>Wallets</em><strong>${walletList(k.handle).length}</strong></div>
         </div>
         <div>${k.g.flags.slice(0,3).map(f => `<span class="flag ${f[1]}">${f[0]}</span>`).join("")}</div>
@@ -423,7 +493,7 @@ function dossier(k) {
         <div class="who"><b>@${k.handle}</b><small>${k.bio}</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
-      <p class="scorebig" style="color:${g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score}</p>
+      <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
       <p class="note">${g.label} · ${k.wallet} · crowd ${tally(k.handle).like}% likable</p>
       <div>${g.flags.map(f => `<span class="flag ${f[1]}">${f[0]}</span>`).join("")}</div>
     </div>
@@ -433,11 +503,11 @@ function dossier(k) {
     <div class="card">
       ${bars.map(b => `<div class="metric"><div class="top"><b>${b[0]}</b><span>${b[1]}</span></div><div class="bar"><i style="width:${b[1]}%;background:${b[1]>=75?'var(--green)':b[1]>=50?'var(--amber)':'var(--red)'}"></i></div><p class="note" style="margin:4px 0 0">${b[2]}</p></div>`).join("")}
     </div>
-    <img class="hero" src="shots/${k.handle}.jpg" alt="Fake portrait of @${k.handle}" />
+    <img class="hero" src="${k.photo || ('shots/' + k.handle + '.jpg')}" alt="@${k.handle}" />
     <h3>Screenshots · sample evidence</h3>
     <div class="card">
       <div class="xpost">
-        <div class="hd"><img src="shots/${k.handle}.jpg" alt="" /><div><div class="nm">${k.name}</div><div class="at">@${k.handle} · sample post</div></div></div>
+        <div class="hd"><img src="${k.photo || ('shots/' + k.handle + '.jpg')}" alt="" /><div><div class="nm">${k.name}</div><div class="at">@${k.handle} · ${k.real ? 'public post' : 'sample post'}</div></div></div>
         <p>${(k.events.find(e => e.kind==="post") || k.events[0]).text}</p>
         <div class="xmeta">FAKE SCREEN · not a real X post</div>
       </div>
