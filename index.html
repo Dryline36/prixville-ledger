@@ -139,7 +139,15 @@ const FILTERS = ["All", "Aligned", "Extractors", "Unverified", "Prixville"];
 /** Simulated dossiers. Not live chain data. Shape is the production schema. */
 const KOLS = [
   {
-    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 6.0, opened: "2020-09-30", cluster: false, handle: "gmoneyNFT", name: "gmoney", followers: "318k", chain: "ETH",
+  {
+    accusations: 0, accusationNote: "May 22 2026 he said he was sometimes a top signal on purpose. That is his post, not an accusation.", years: 4.8, opened: "2021-12-09", cluster: false, handle: "Tma_420", name: "T.M.A", followers: "53k", chain: "ETH",
+    wallet: "OpenSea TMA420", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2097344208659238912/dq19djkT.jpg",
+    bio: "Grade B, 88, Incomplete. Founder of Funkari. OpenSea username TMA420, joined Dec 2021, one public wallet 0xdbd4…c495. No full address on the extract. No accusation thread.",
+    events: [{ kind: "post", t: "May 22 2026", text: "Said he swept floors and was sometimes a top signal on purpose. No matched fill on this card." }],
+    calls: []
+  },
+      accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 6.0, opened: "2020-09-30", cluster: false, handle: "gmoneyNFT", name: "gmoney", followers: "318k", chain: "ETH",
     wallet: "gmoney.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/1626216945698881541/kF6xM_Cb.jpg",
     bio: "Grade B, 88, Incomplete. gmoney.eth verifies to @gmoneynft. Etherscan name matches. No phishing tag. About 3.3 ETH. No dump lined up with a post.",
@@ -371,6 +379,9 @@ const KOLS = [
 ];
 
 const WALLETS = {
+  Tma_420: [
+    { addr: "0xdbd4…c495", chain: "ETH", status: "self", note: "OpenSea username TMA420, joined Dec 2021, one public wallet. Bio says founder of FunkariNFT. Full address not on the extract." }
+  ],
   gmoneyNFT: [
     { addr: "0xf0d6999725115e3ead3d927eb3329d63afaec09b", chain: "ETH", status: "self", note: "gmoney.eth. ENS page verifies X as gmoneynft." }
   ],
