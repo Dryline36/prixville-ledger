@@ -140,7 +140,7 @@ const FILTERS = ["All", "Aligned", "Extractors", "Unverified", "Prixville"];
 const KOLS = [
   {
     handle: "garyvee", name: "Gary Vaynerchuk", followers: "3.1m", chain: "ETH",
-    wallet: "none confirmed", verified: false, prix: false, real: true,
+    wallet: "no public wallet", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2104354219377516544/oSNAfvnO.jpg",
     bio: "VeeFriends. Public post on Sep 28 asking a collector for an ETH wallet. No wallet confirmed here.",
     events: [
@@ -152,15 +152,15 @@ const KOLS = [
     handle: "beeple", name: "beeple", followers: "1.15m", chain: "—",
     wallet: "none confirmed", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/264316321/beeple_headshot_beat_up.jpg",
-    bio: "Everydays. The name outsiders know from the Christie’s sale. No public trading wallet tied here.",
+    bio: "Everydays. OpenSea username beeple, one public wallet, Everydays in the bag.",
     events: [
-      { kind: "post", t: "Public record", text: "Known for the daily series and the 2021 Christie’s sale. No matched buy or sell on a linked wallet." }
+      { kind: "post", t: "OpenSea", text: "Profile 0xc6b0…3807 is username beeple. beeple.eth registrant matches. No post lined up with a single fill yet." }
     ],
     calls: []
   },
   {
     handle: "punk6529", name: "6529", followers: "488k", chain: "ETH",
-    wallet: "punk6529.eth public", verified: false, prix: false, real: true,
+    wallet: "punk6529.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/1784231403325943808/PBDWE07Y.jpg",
     bio: "Collector. The Memes, CC0. ENS is public. Not a signed Holdgrade wallet.",
     events: [
@@ -170,9 +170,9 @@ const KOLS = [
   },
   {
     handle: "DeeZe", name: "DeeZe", followers: "NFT collector", chain: "ETH",
-    wallet: "headie.eth on 6529.io", verified: false, prix: false, real: true,
+    wallet: "headie.eth + deeze.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2079300026929389568/JcQpqOIQ.jpg",
-    bio: "Hosts We Do A Little. 6529.io lists headie.eth as the primary address. Not signed here.",
+    bio: "Hosts We Do A Little. headie.eth verifies to @deeze. deeze.eth sends ETH to it.",
     events: [
       { kind: "post", t: "Oct 3", text: "Recent posts are holding and shitposting, not a collection call with a fill beside it." }
     ],
@@ -180,9 +180,9 @@ const KOLS = [
   },
   {
     handle: "pranksy", name: "Pranksy", followers: "collector", chain: "ETH",
-    wallet: "none confirmed", verified: false, prix: false, real: true,
+    wallet: "pranksy.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2087231953594429440/xDG7H1PJ.jpg",
-    bio: "Collector. Sorare and cardboard. No wallet confirmed for this card.",
+    bio: "OpenSea username Pranksy, joined Jan 2018, one public wallet. pranksy.eth resolves to it.",
     events: [
       { kind: "post", t: "Oct 5", text: "Posted that some NBA guys bought or traded for his apes. Historical talk, not a matched fill." }
     ],
@@ -282,19 +282,20 @@ const KOLS = [
 
 const WALLETS = {
   garyvee: [
-    { addr: "none confirmed", chain: "ETH", status: "rumor", note: "Sep 28 post asked for an ETH wallet. No address came back in the public post. A garyvvee.eth page points at a different social graph, so it is not listed." }
+    { addr: "none on OpenSea", chain: "ETH", status: "rumor", note: "opensea.io/garyvee is a 404. Sep 28 post asked for an ETH wallet and did not publish one. A garyvvee.eth page points at a different social graph, so it is not listed." }
   ],
   beeple: [
-    { addr: "none confirmed", chain: "—", status: "rumor", note: "No public trading wallet tied to this card." }
+    { addr: "0xc6b0562605d35ee710138402b878ffe6f2e23807", chain: "ETH", status: "self", note: "OpenSea username beeple. One public wallet. beeple.eth registrant matches. Everydays sit in this bag." }
   ],
   punk6529: [
-    { addr: "punk6529.eth", chain: "ETH", status: "self", note: "Public ENS. Resolves to 0xfD2…28793. Manager tx3.6529museum.eth. Not a signed challenge." }
+    { addr: "0xfd22004806a6846ea67ad883356be810f0428793", chain: "ETH", status: "self", note: "punk6529.eth resolves here. Manager tx3.6529museum.eth. ENS name matches the handle. Not a signed challenge." }
   ],
   DeeZe: [
-    { addr: "headie.eth", chain: "ETH", status: "self", note: "6529.io profile lists this as the primary address. Not signed here." }
+    { addr: "0xf5d4a3b9fb77d1d5600a10e0e1c4efd12f9be751", chain: "ETH", status: "self", note: "headie.eth. OpenSea profile. web3.bio verifies X as deeze." },
+    { addr: "0xC46Db2d89327D4C41Eb81c43ED5e3dfF111f9A8f", chain: "ETH", status: "funded", note: "deeze.eth. Etherscan shows sends to headie.eth. OpenSea also lists consolidating.eth on the deeze profile." }
   ],
   pranksy: [
-    { addr: "none confirmed", chain: "ETH", status: "rumor", note: "No public wallet confirmed for this card." }
+    { addr: "0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459", chain: "ETH", status: "self", note: "pranksy.eth. OpenSea username Pranksy, joined Jan 2018, one public wallet. X is not verified on the ENS page." }
   ],
   floorpriest: [
     { addr: "0x91c4…a14", chain: "ETH", status: "signed", note: "Signed the Holdgrade challenge from this wallet." },
