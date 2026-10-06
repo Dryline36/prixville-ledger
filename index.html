@@ -747,9 +747,9 @@ function board() {
           <div class="grade g${k.g.letter}">${k.g.letter}</div>
         </div>
         <div class="stats">
-          <div class="stat"><em>Art</em><strong>${k.artPattern?"Clear":k.artChecked?"Short":"—"}</strong></div>
+          <div class="stat"><em>Bought art</em><strong>${k.artPattern?"Yes":k.artChecked?"No":"—"}</strong></div>
           <div class="stat"><em>Votes</em><strong>${tally(k.handle).total}</strong></div>
-          <div class="stat"><em>Dump</em><strong>${k.g.dump?"Yes":"No"}</strong></div>
+          <div class="stat"><em>Sold after post</em><strong>${k.g.dump?"Yes":"No"}</strong></div>
         </div>
       </article>`).join("");
 }
