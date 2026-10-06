@@ -772,7 +772,7 @@ function voteBlock(k) {
       <div class="reasons">
         ${REASONS.map(([id, label]) => `<button class="${(mine.tags||[]).includes(id)?'on':''}" data-tag="${id}">${label}</button>`).join("")}
       </div>
-      <p class="note" style="margin-top:8px">This vote does not move the bag grade. A liked dumper stays a dumper. Live votes require X login, account older than 90 days, one ballot per handle.</p>
+      <p class="note" style="margin-top:8px">A vote moves the grade only after 10 ballots, and only by 4 points. It cannot invent a dump. Live votes still need an X login.</p>
     </div>`;
 }
 
