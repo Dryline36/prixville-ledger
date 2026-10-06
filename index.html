@@ -139,6 +139,38 @@ const FILTERS = ["All", "Aligned", "Extractors", "Unverified", "Prixville"];
 /** Simulated dossiers. Not live chain data. Shape is the production schema. */
 const KOLS = [
   {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 14, opened: "2012-10-16", cluster: false, handle: "eyezenhour", name: "eye zen hour", followers: "72k", chain: "SUI",
+    wallet: "no personal wallet", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/1514668784006533128/jqFYUGmU.jpg",
+    bio: "Unscored. Lofi founder. Account opened Oct 16, 2012. No personal Sui address published. The foundation wallet is a project wallet.",
+    events: [{ kind: "post", t: "May 10 2026", text: "Posted a $1,000 donation and the Lofi Foundation address. That is not his trading wallet." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 4.7, opened: "2022-02-01", cluster: false, handle: "lofitheyeti", name: "Lofi The Yeti", followers: "49k", chain: "SUI",
+    wallet: "Lofi Foundation", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "Grade B, 88, Incomplete. Brand account. Published the foundation wallet for donations. Not a personal bag, no dump lined up.",
+    events: [{ kind: "post", t: "Apr 15 2025", text: "Published the Lofi Foundation address for a giveaway. Project wallet, not a founder wallet." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 0, opened: "unknown", cluster: false, handle: "rootlets_nft", name: "Rootlets", followers: "Sui NFT", chain: "SUI",
+    wallet: "no public wallet", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "Unscored. Sui companion collection. No founder wallet on a public page in this pass.",
+    events: [{ kind: "post", t: "Public", text: "Named in Sui NFT roundups. No address tied to a person." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 0, opened: "unknown", cluster: false, handle: "PrimeMachin", name: "Prime Machin", followers: "Sui NFT", chain: "SUI",
+    wallet: "no public wallet", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "Unscored. Sui collection account. No public founder wallet in this pass.",
+    events: [{ kind: "post", t: "Public", text: "Named alongside Rootlets and Fuddies. No address copied." }],
+    calls: []
+  },
+  {
     accusations: 0, accusationNote: "May 22 2026 he said he was sometimes a top signal on purpose. That is his post, not an accusation.", years: 4.8, opened: "2021-12-09", cluster: false, handle: "Tma_420", name: "T.M.A", followers: "53k", chain: "ETH",
     wallet: "OpenSea TMA420", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2097344208659238912/dq19djkT.jpg",
@@ -379,6 +411,18 @@ const KOLS = [
 ];
 
 const WALLETS = {
+  eyezenhour: [
+    { addr: "0xb1a99b2135e594ed62506352a79362a146dda11398cacb187cb42533b66ce69c", chain: "SUI", status: "rumor", note: "Lofi Foundation wallet, published by the brand and by him for donations. Not labeled as his trading wallet." }
+  ],
+  lofitheyeti: [
+    { addr: "0xb1a99b2135e594ed62506352a79362a146dda11398cacb187cb42533b66ce69c", chain: "SUI", status: "self", note: "Published by the brand account for donations. Project wallet." }
+  ],
+  rootlets_nft: [
+    { addr: "none public", chain: "SUI", status: "rumor", note: "No founder wallet found." }
+  ],
+  PrimeMachin: [
+    { addr: "none public", chain: "SUI", status: "rumor", note: "No founder wallet found." }
+  ],
   Tma_420: [
     { addr: "0xdbd4…c495", chain: "ETH", status: "self", note: "OpenSea username TMA420, joined Dec 2021, one public wallet. Bio says founder of FunkariNFT. Full address not on the extract." }
   ],
