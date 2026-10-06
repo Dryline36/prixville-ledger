@@ -267,6 +267,38 @@ const KOLS = [
     calls: []
   },
   {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 5.3, opened: "2021-06", cluster: false, support: 2, supportNote: "OpenSea bag holds an XCOPY edition and an OSF edition, plus a Damien Hirst Currency work. Known names, not a small-artist pattern. Penalty stands.", artChecked: true, handle: "fvckrender", name: "FVCKRENDER", followers: "artist", chain: "ETH",
+    wallet: "OpenSea FVCKRENDER", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "OpenSea profile, joined Jun 2021, one public wallet. Holds XCOPY and OSF editions. Own work does not count.",
+    events: [{ kind: "post", t: "Jun 2021", text: "OpenSea bag shows an XCOPY edition and an OSF edition. Not three small artists. No sale tied to a post." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 5.6, opened: "2021-02", cluster: false, support: 0, supportNote: "Makes the work. OpenSea shows one public wallet. No pattern of buys from smaller artists found. Penalty stands.", artChecked: true, handle: "ClaireSilver", name: "Claire Silver", followers: "artist", chain: "ETH",
+    wallet: "OpenSea ClaireSilver", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "AI artist. OpenSea joined Feb 2021, one public wallet. Own work does not count.",
+    events: [{ kind: "post", t: "Feb 2021", text: "OpenSea profile exists. No small-artist buys found. No sale tied to a post." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 4.6, opened: "2022-03-10", cluster: false, support: 0, supportNote: "No public wallet in this pass, so the art penalty is not on yet.", artChecked: false, handle: "waleswoosh", name: "wale.moca", followers: "173k", chain: "ETH",
+    wallet: "no public wallet", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "Joined Mar 2022. No public wallet in this pass.",
+    events: [{ kind: "post", t: "Jan 27 2024", text: "Posted a public offer to buy OpenSea. Not an art buy. No sale tied to a post." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 6, opened: "about 2020", cluster: false, support: 1, supportNote: "seedphrase.com shows a vault with CryptoPunk #8348 and works by known artists. One page is not three small-artist buys. No wallet address in this pass.", artChecked: true, handle: "seedphrase", name: "Seedphrase", followers: "collector", chain: "ETH",
+    wallet: "seedphrase vault", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "Collector site. Punk #8348 and a vault of known works. No address on the page.",
+    events: [{ kind: "post", t: "2026", text: "Public vault page lists Punk #8348 and known artists. Not a small-artist pattern. No sale tied to a post." }],
+    calls: []
+  },
+  {
     accusations: 0, accusationNote: "May 22 2026 he said he was sometimes a top signal on purpose. That is his post, not an accusation.", years: 4.8, opened: "2021-12-09", cluster: false, support: 0, supportNote: "OpenSea, OBJKT, Transient, and SuperRare returned no collected works. A miss counts as no public buy. Penalty stands.", artChecked: true, handle: "Tma_420", name: "T.M.A", followers: "53k", chain: "ETH",
     wallet: "OpenSea TMA420", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2097344208659238912/dq19djkT.jpg",
@@ -657,7 +689,7 @@ function accusationHit(k) {
   return Math.min(6, Math.round(raw));
 }
 function artHit(k) {
-  const artKols = new Set(["garyvee", "beeple", "punk6529", "DeeZe", "pranksy", "frankdegods", "CozomoMedici", "farokh", "punk9059", "LucaNetz", "gmoneyNFT", "Zeneca", "osf", "XCOPYART", "dingalingts", "Tma_420", "eyezenhour", "lofitheyeti"]);
+  const artKols = new Set(["garyvee", "beeple", "punk6529", "DeeZe", "pranksy", "frankdegods", "CozomoMedici", "farokh", "punk9059", "LucaNetz", "gmoneyNFT", "Zeneca", "osf", "XCOPYART", "dingalingts", "Tma_420", "eyezenhour", "lofitheyeti", "fvckrender", "ClaireSilver", "seedphrase"]);
   if (!artKols.has(k.handle)) return 0;
   if (!k.artChecked) return 0;
   if (k.artPattern || (k.support || 0) >= 3) return 0;
