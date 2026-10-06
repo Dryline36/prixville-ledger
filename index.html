@@ -617,7 +617,7 @@ const CROWD = {
   ghostbag: { up: 190, down: 870, tags: { funny: 300, straight: 20, helpful: 15, annoying: 500, grifter: 240 } },
   slowhand: { up: 510, down: 44, tags: { funny: 60, straight: 400, helpful: 220, annoying: 18, grifter: 6 } }
 };
-const REASONS = [["funny","Funny"],["straight","Straight"],["helpful","Helpful"],["annoying","Annoying"],["grifter","Grifter energy"]];
+const REASONS = [["funny","Funny"],["straight","Direct"],["helpful","Helpful"],["annoying","Annoying"],["grifter","Grifter energy"]];
 let myVotes = {};
 try { myVotes = JSON.parse(localStorage.getItem("holdgrade-votes") || "{}"); } catch (e) { myVotes = {}; }
 function saveVotes() { localStorage.setItem("holdgrade-votes", JSON.stringify(myVotes)); }
@@ -859,7 +859,7 @@ function crowd() {
         <div class="bar"><i style="width:${t.like}%;background:var(--purple)"></i></div>
         <p class="note" style="margin-top:8px">Bag grade ${k.g.letter} · ${k.g.score}. ${t.like >= 60 && k.g.score < 65 ? "Liked, and still a bad bag." : "Crowd and chain are allowed to disagree."}</p>
       </article>`).join("") +
-    `<div class="card"><b>How an X vote counts</b><ul class="clean"><li>Sign in with X. One ballot per account per KOL. Change it anytime.</li><li>Account older than 90 days. New accounts can read, not swing a tally.</li><li>Not weighted by followers. A 400k account does not outvote 400 people.</li><li>Optional second ballot for Prixville holders, shown separately, not folded in.</li><li>Tags are funny, straight, helpful, annoying, grifter energy. Tags are color, not the score.</li><li>Brigade spike: if 40% of votes land inside an hour from accounts that only vote that hour, freeze the tally and flag it.</li></ul></div>`;
+    `<div class="card"><b>How an X vote counts</b><ul class="clean"><li>Sign in with X. One ballot per account per KOL. Change it anytime.</li><li>Account older than 90 days. New accounts can read, not swing a tally.</li><li>Not weighted by followers. A 400k account does not outvote 400 people.</li><li>Optional second ballot for Prixville holders, shown separately, not folded in.</li><li>Tags are funny, direct, helpful, annoying, grifter energy. Tags are color, not the score.</li><li>Brigade spike: if 40% of votes land inside an hour from accounts that only vote that hour, freeze the tally and flag it.</li></ul></div>`;
 }
 
 function alerts() {
