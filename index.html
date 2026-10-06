@@ -755,11 +755,11 @@ function board() {
   const hide = new Set(["EvanWeb3", "EmanAbio", "b1ackd0g", "kostascrypto", "GDanezis", "Mysten_Labs", "SuiFoundation", "SuiNetwork", "_smbrian", "_smkotaro", "benli_studiomirai", "0xrooter", "eyezenhour", "lofitheyeti", "rootlets_nft", "PrimeMachin"]);
   const rows = GRADED.filter(k => passes(k) && !hide.has(k.handle) && k.photo && k.photo.startsWith("http"));
   document.getElementById("count").textContent = rows.length + " dossiers";
-  return `<div class="banner">Tap a name for the record. The board is the grade.</div>` +
+  return `<div class="banner">Faces only. No picture, no card.</div>` +
     rows.map(k => `
       <article class="card tap" data-h="${k.handle}">
         <div class="row">
-          <div class="av"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /></div>
+          <div class="av">${k.photo?`<img src="${k.photo}" alt="" />`:""}</div>
           <div class="who"><b>@${k.handle}</b><small>${k.g.label}. ${k.g.score==null?"—":k.g.score}</small></div>
           <div class="grade g${k.g.letter}">${k.g.letter}</div>
         </div>
