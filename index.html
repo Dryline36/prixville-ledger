@@ -760,8 +760,8 @@ function board() {
       <article class="card tap" data-h="${k.handle}">
         <div class="row">
           <div class="av">${k.photo?`<img src="${k.photo}" alt="" />`:""}</div>
-          <div class="who"><b>@${k.handle}</b><small>${k.g.label}. ${k.g.score==null?"—":k.g.score}</small></div>
-          <div class="grade g${k.g.letter}">${k.g.letter}</div>
+          <div class="who"><b>@${k.handle}</b><small>${k.g.label}</small></div>
+          <div class="grade g${k.g.letter}" style="width:auto;padding:0 8px;font-size:18px"><span style="color:#ff7347">${k.g.letter}</span>${k.g.score==null?"":` <span style="color:#f6f0e6">/ ${k.g.score}</span>`}</div>
         </div>
         <div class="stats">
           <div class="stat"><em>Collected art</em><strong>${k.artPattern?"Yes":k.artChecked?"No":"—"}</strong></div>
@@ -801,7 +801,7 @@ function dossier(k) {
       <div class="row">
         <div class="av"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /></div>
         <div class="who"><b>@${k.handle}</b><small>${g.label}</small></div>
-        <div class="grade g${g.letter}" style="width:auto;padding:0 8px">${g.letter} ${g.score==null?"":g.score}</div>
+        <div class="grade g${g.letter}" style="width:auto;padding:0 8px;font-size:22px"><span style="color:#ff7347">${g.letter}</span>${g.score==null?"":` <span style="color:#f6f0e6">/ ${g.score}</span>`}</div>
       </div>
       <div class="stats">
         <div class="stat"><em>Collected art</em><strong>${art}</strong></div>
