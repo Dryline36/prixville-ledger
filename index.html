@@ -139,7 +139,7 @@ const FILTERS = ["All", "Aligned", "Extractors", "Unverified", "Prixville"];
 /** Simulated dossiers. Not live chain data. Shape is the production schema. */
 const KOLS = [
   {
-    handle: "garyvee", name: "Gary Vaynerchuk", followers: "3.1m", chain: "ETH",
+    accusations: 1, accusationNote: "Oct 2 2026: one post tagged him and VeeFriends with a rug warning. No holder case attached.", handle: "garyvee", name: "Gary Vaynerchuk", followers: "3.1m", chain: "ETH",
     wallet: "no public wallet", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2104354219377516544/oSNAfvnO.jpg",
     bio: "VeeFriends. Public post on Sep 28 asking a collector for an ETH wallet. No wallet confirmed here.",
@@ -149,7 +149,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "beeple", name: "beeple", followers: "1.15m", chain: "—",
+    accusations: 1, accusationNote: "Oct 5 2026: one reply said he did art for a coin that was a scam.", handle: "beeple", name: "beeple", followers: "1.15m", chain: "—",
     wallet: "none confirmed", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/264316321/beeple_headshot_beat_up.jpg",
     bio: "Everydays. OpenSea username beeple, one public wallet, Everydays in the bag.",
@@ -159,7 +159,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "punk6529", name: "6529", followers: "488k", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", handle: "punk6529", name: "6529", followers: "488k", chain: "ETH",
     wallet: "punk6529.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/1784231403325943808/PBDWE07Y.jpg",
     bio: "Collector. The Memes, CC0. ENS is public. Not a signed Holdgrade wallet.",
@@ -169,7 +169,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "DeeZe", name: "DeeZe", followers: "NFT collector", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", handle: "DeeZe", name: "DeeZe", followers: "NFT collector", chain: "ETH",
     wallet: "headie.eth + deeze.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2079300026929389568/JcQpqOIQ.jpg",
     bio: "Hosts We Do A Little. headie.eth verifies to @deeze. deeze.eth sends ETH to it.",
@@ -179,7 +179,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "pranksy", name: "Pranksy", followers: "collector", chain: "ETH",
+    accusations: 2, accusationNote: "Oct 4 2026: subscription boxes called worthless. Oct 5 2026: a rock-scam claim with no evidence.", handle: "pranksy", name: "Pranksy", followers: "collector", chain: "ETH",
     wallet: "pranksy.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2087231953594429440/xDG7H1PJ.jpg",
     bio: "OpenSea username Pranksy, joined Jan 2018, one public wallet. pranksy.eth resolves to it.",
@@ -190,7 +190,7 @@ const KOLS = [
   },
 
   {
-    handle: "frankdegods", name: "Frank", followers: "536k", chain: "ETH",
+    accusations: 4, accusationNote: "Nov 25 2024 holder exit. Dec 26 2024 rarity complaint. Feb 15 2025 viral rug accusation. Sep 30 2026 grifter post.", handle: "frankdegods", name: "Frank", followers: "536k", chain: "ETH",
     wallet: "frankdegods.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2060043584204689410/Sh83nkwV.jpg",
     bio: "DeGods. frankdegods.eth resolves publicly. Etherscan has no name tag on that address. A Solana address is only a third-party claim.",
@@ -200,7 +200,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "CozomoMedici", name: "Cozomo de’ Medici", followers: "307k", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", handle: "CozomoMedici", name: "Cozomo de’ Medici", followers: "307k", chain: "ETH",
     wallet: "cozomomedici.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/1977822248070426624/c8ViMOvf.jpg",
     bio: "Collector. OpenSea bio says the vault moved to TheMediciCollection.eth.",
@@ -210,7 +210,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "farokh", name: "Farokh", followers: "449k", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", handle: "farokh", name: "Farokh", followers: "449k", chain: "ETH",
     wallet: "farokh.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2080312893979983872/7jHMOx8L.jpg",
     bio: "Rug Radio and FOMO HOUR. OpenSea username Farokh, one public wallet.",
@@ -220,7 +220,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "punk9059", name: "Stats", followers: "132k", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", handle: "punk9059", name: "Stats", followers: "132k", chain: "ETH",
     wallet: "punk9059.eth grace", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2104670086011473920/UUwYKd3m.jpg",
     bio: "NFT stats. punk9059.eth is in its grace period. Name match only.",
@@ -230,7 +230,7 @@ const KOLS = [
     calls: []
   },
   {
-    handle: "LucaNetz", name: "Luca Netz", followers: "230k", chain: "—",
+    accusations: 1, accusationNote: "Oct 7 2023: one thread listed pre-Pudgy deals. The author said it did not make Pudgy a rug.", handle: "LucaNetz", name: "Luca Netz", followers: "230k", chain: "—",
     wallet: "no public wallet", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/1849498278255071232/drdvg74U.jpg",
     bio: "Pudgy Penguins. No personal wallet on a public ENS or OpenSea profile in this pass.",
@@ -520,6 +520,7 @@ function board() {
           <div class="stat"><em>Bag grade</em><strong>${k.g.score==null?'—':k.g.score}</strong></div>
           <div class="stat"><em>Likable</em><strong>${CROWD[k.handle]?tally(k.handle).like+'%':'—'}</strong></div>
           <div class="stat"><em>Wallets</em><strong>${walletList(k.handle).length}</strong></div>
+          <div class="stat"><em>Accusations</em><strong>${k.accusations || 0}</strong></div>
         </div>
         <div>${k.g.flags.slice(0,3).map(f => `<span class="flag ${f[1]}">${f[0]}</span>`).join("")}</div>
       </article>`).join("");
@@ -559,7 +560,7 @@ function dossier(k) {
     <button class="back" id="back">← Board</button>
     <div class="card">
       <div class="row">
-        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small></div>
+        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations. ${k.accusationNote||"Not counted yet."} Does not move the bag grade.</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
