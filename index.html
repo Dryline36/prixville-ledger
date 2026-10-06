@@ -656,13 +656,20 @@ function accusationHit(k) {
   const raw = n * 2 * (3 / years);
   return Math.min(6, Math.round(raw));
 }
+function artHit(k) {
+  const makers = new Set(["beeple", "XCOPYART", "osf"]);
+  const artKols = new Set(["garyvee", "beeple", "punk6529", "DeeZe", "pranksy", "frankdegods", "CozomoMedici", "farokh", "punk9059", "LucaNetz", "gmoneyNFT", "Zeneca", "osf", "XCOPYART", "dingalingts", "Tma_420", "eyezenhour", "lofitheyeti"]);
+  if (!artKols.has(k.handle) || makers.has(k.handle)) return 0;
+  if ((k.support || 0) > 0) return 0;
+  return 6;
+}
 function gradeKol(k) {
-  const hit = accusationHit(k);
+  const hit = accusationHit(k) + artHit(k);
   if (!k.calls || !k.calls.length) {
     if (!hit && !(k.wallet && !String(k.wallet).startsWith("no "))) return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
     const score = 88 - hit;
     const letter = score >= 80 ? "B" : "C";
-    return { score, letter, label: "Incomplete", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 6", "warn"]] };
+    return { score, letter, label: "Incomplete", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 6", "warn"], ["No public 1/1 buy costs 6", "warn"]] };
   }
   const parts = k.calls.map(scoreCall);
   const avg = (key) => parts.reduce((s, p) => s + p[key], 0) / parts.length;
@@ -683,7 +690,7 @@ function gradeKol(k) {
   if (k.calls.every(c => c.disclosed) && k.verified) flags.push(["Discloses", "good"]);
   if (k.calls.some(c => c.buyBeforeHours >= 6 && c.soldWithinHours == null)) flags.push(["Buys before posting", "good"]);
   if (k.prix) flags.push(["Prixville bag", "good"]);
-  score = Math.round(clamp(score - accusationHit(k), 0, 100));
+  score = Math.round(clamp(score - accusationHit(k) - artHit(k), 0, 100));
   const letter = score >= 90 ? "A" : score >= 80 ? "B" : score >= 65 ? "C" : score >= 50 ? "D" : "F";
   const label = { A: "Aligned", B: "Credible", C: "Mixed", D: "Conflicted", F: "Extractor" }[letter];
   return { score, letter, label, skin: Math.round(skin), hold: Math.round(hold), dump: Math.round(dump), disc: Math.round(disc), wallet, flags };
@@ -777,7 +784,7 @@ function dossier(k) {
     <div class="card">
       <div class="row">
         <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations over ${k.years||"?"} years. Cap 6, and only a nudge. ${k.cluster?"Wallet cluster.":k.linked?"Linked wallets, not a cluster.":"No cluster."} ${k.accusationNote||""}</small>
-        <small style="display:block;margin-top:6px">${k.support||0} artist supports. ${k.supportNote||"No 1/1 or small-artist thank-you in this pass. A PFP sweep does not count."}</small></div>
+        <small style="display:block;margin-top:6px">${k.support||0} artist supports. ${k.supportNote||"No public 1/1 buy. That costs 6 on an NFT card. A PFP sweep does not count."}</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
