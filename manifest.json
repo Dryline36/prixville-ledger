@@ -1,0 +1,10 @@
+{
+  "name": "Holdgrade",
+  "short_name": "Holdgrade",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "description": "NFT KOL legitimacy tracker. Grades influencers on whether their bag matches their post.",
+  "icons": []
+}

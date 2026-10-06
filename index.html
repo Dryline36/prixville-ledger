@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#090909" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>PRIXVILLE. — The Ledger</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Rokkitt:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #090909; --card: #100f0e; --card2: #171513; --line: #2a2622;
+    --text: #f6f0e6; --muted: #a8a8a8; --dim: #7a756c; --coral: #ff7347;
+    --green: #d7e2c4; --green-dim: rgba(215,226,196,.12);
+    --amber: #ff7347; --amber-dim: rgba(255,115,71,.14);
+    --red: #ff4d3a; --red-dim: rgba(255,77,58,.14);
+    --blue: #f6f0e6; --blue-dim: rgba(246,240,230,.08); --purple: #ff7347;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: "Crimson Text", "Times New Roman", Georgia, serif; }
+  body { max-width: 520px; margin: 0 auto; min-height: 100vh; padding-bottom: 92px; }
+  .toprule { height: 6px; background: #e10600; }
+  header { padding: 16px 16px 6px; position: sticky; top: 0; background: linear-gradient(#090909 78%, rgba(9,9,9,0)); z-index: 5; }
+  .brand { display: flex; align-items: baseline; justify-content: space-between; }
+  .brand h1 { font-family: Rokkitt, Georgia, serif; font-size: 42px; font-weight: 800; letter-spacing: -0.03em; margin: 0; line-height: .9; }
+  .brand h1 span { color: var(--coral); }
+  .eyebrow { color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 18px; margin: 8px 0 0; line-height: 1.3; font-style: italic; }
+  .pillrow { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px 4px; scrollbar-width: none; }
+  .pillrow::-webkit-scrollbar { display: none; }
+  .pill { border: 2px solid #111; background: transparent; color: var(--text); border-radius: 999px; padding: 7px 14px; font-size: 13px; font-family: Rokkitt, serif; font-weight: 800; letter-spacing: -0.01em; text-transform: none; white-space: nowrap; }
+  .pill.on { background: var(--coral); color: #fff; border-color: #111; }
+  main { padding: 8px 16px 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 0; padding: 14px; margin-bottom: 10px; }
+  .card.tap { cursor: pointer; }
+  .card.tap:active { background: #161412; }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .av { width: 40px; height: 40px; border-radius: 0; display: grid; place-items: center; font-family: Rokkitt, serif; font-weight: 800; font-size: 18px; flex: none; background: #e10600; color: #f6f0e6; }
+  .who { flex: 1; min-width: 0; }
+  .who b { display: block; font-family: Rokkitt, serif; font-size: 20px; font-weight: 800; }
+  .who small { color: var(--dim); font-size: 12px; font-family: "JetBrains Mono", monospace; letter-spacing: .04em; }
+  .grade { width: 42px; height: 42px; border-radius: 0; display: grid; place-items: center; font-family: Rokkitt, serif; font-weight: 800; font-size: 22px; flex: none; border: 1px solid var(--line); }
+  .gA { background: var(--green-dim); color: var(--green); }
+  .gB { background: transparent; color: var(--text); }
+  .gC { background: var(--amber-dim); color: var(--coral); }
+  .gD, .gF { background: var(--red-dim); color: var(--red); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .stat { background: transparent; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 0 0; }
+  .stat em { display: block; font-style: normal; color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+  .stat strong { font-family: Rokkitt, serif; font-size: 18px; font-weight: 800; }
+  .flag { display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; border-radius: 0; padding: 3px 7px; margin: 8px 6px 0 0; border: 1px solid var(--line); }
+  .flag.bad { color: var(--red); border-color: var(--red); }
+  .flag.warn { color: var(--coral); border-color: var(--coral); }
+  .flag.good { color: var(--green); border-color: #3d4a32; }
+  .back { background: none; border: 0; color: var(--coral); font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 0 0 8px; }
+  h2 { font-family: Rokkitt, Georgia, serif; font-size: 42px; font-weight: 800; margin: 4px 0 8px; letter-spacing: -0.03em; line-height: .9; }
+  h3 { font-family: "JetBrains Mono", monospace; font-size: 10px; margin: 16px 0 8px; color: var(--coral); letter-spacing: .16em; text-transform: uppercase; }
+  .bar { height: 3px; background: #2a2622; border-radius: 0; overflow: hidden; margin-top: 6px; }
+  .bar > i { display: block; height: 100%; }
+  .metric { margin-bottom: 10px; }
+  .metric .top { display: flex; justify-content: space-between; font-size: 17px; }
+  .metric .top span { color: var(--muted); font-family: "JetBrains Mono", monospace; font-size: 12px; }
+  .tl { border-left: 1px solid var(--line); margin-left: 8px; padding-left: 14px; }
+  .ev { position: relative; margin: 0 0 14px; }
+  .ev::before { content: ""; position: absolute; left: -18px; top: 6px; width: 7px; height: 7px; background: var(--dim); }
+  .ev.buy::before { background: var(--green); }
+  .ev.sell::before { background: var(--red); }
+  .ev.post::before { background: var(--coral); }
+  .ev .t { color: var(--dim); font-size: 10px; font-family: "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .ev p { margin: 2px 0 0; font-size: 16px; line-height: 1.35; }
+  .discord { background: #100f0e; padding: 12px; margin-bottom: 10px; border: 1px solid var(--line); }
+  .discord .ch { color: var(--coral); font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
+  .discord .msg { font-size: 16px; line-height: 1.4; }
+  .note { color: var(--muted); font-size: 16px; line-height: 1.4; }
+  .idea { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .idea:last-child { border-bottom: 0; }
+  .tag { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); }
+  nav { position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: min(520px, 100%); background: rgba(9,9,9,.94); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); }
+  nav button { background: none; border: 0; color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 0; }
+  nav button.on { color: var(--coral); }
+  .banner { border: 1px solid var(--line); color: var(--dim); font-size: 12px; padding: 8px 10px; margin-bottom: 10px; line-height: 1.4; font-family: "JetBrains Mono", monospace; }
+  .cmd { font-family: "JetBrains Mono", monospace; font-size: 12px; background: #100f0e; padding: 8px 10px; color: var(--coral); margin: 4px 0; border: 1px solid var(--line); }
+  ul.clean { margin: 6px 0 0; padding-left: 16px; color: var(--muted); font-size: 16px; line-height: 1.4; }
+  .scorebig { font-family: Rokkitt, serif; font-size: 64px; font-weight: 800; letter-spacing: -0.04em; margin: 0; line-height: .9; }
+  .vote { display: flex; gap: 8px; margin-top: 10px; }
+  .vote button { flex: 1; border: 2px solid #111; background: var(--coral); color: #fff; border-radius: 999px; padding: 10px 8px; font-family: Rokkitt, serif; font-weight: 800; font-size: 15px; }
+  .vote button.on-up { border-color: var(--green); color: var(--green); }
+  .vote button.on-down { border-color: var(--red); color: var(--red); }
+  .reasons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .reasons button { border: 1px solid var(--line); background: transparent; color: var(--muted); padding: 6px 10px; font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+  .reasons button.on { border-color: var(--coral); color: var(--coral); }
+  .wstatus { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 7px; border: 1px solid var(--line); }
+  .w-signed, .w-self { color: var(--green); border-color: #3d4a32; }
+  .w-funded, .w-cluster, .w-payout { color: var(--coral); border-color: var(--coral); }
+  .w-rumor { color: var(--red); border-color: var(--red); }
+  .wrow { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .wrow:last-child { border-bottom: 0; }
+  .waddr { font-family: "JetBrains Mono", monospace; font-size: 12px; }
+  input.tip { width: 100%; margin-top: 8px; background: #090909; border: 1px solid var(--line); color: var(--text); padding: 8px; font-size: 14px; font-family: "JetBrains Mono", monospace; }
+  .shot { width: 100%; display: block; border: 1px solid var(--line); margin: 8px 0; background: #efe7d8; }
+  .av img { width: 40px; height: 40px; object-fit: cover; display: block; }
+  .xpost { border: 1px solid var(--line); background: #111; padding: 10px; margin: 8px 0; }
+  .xpost .hd { display: flex; gap: 8px; align-items: center; }
+  .xpost .hd img { width: 36px; height: 36px; object-fit: cover; }
+  .xpost .nm { font-family: Rokkitt, serif; font-weight: 800; font-size: 16px; }
+  .xpost .at { color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 11px; }
+  .xpost p { margin: 8px 0; font-size: 16px; }
+  .xmeta { color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .06em; }
+  .scan { border: 1px solid var(--line); padding: 8px; margin: 8px 0; font-family: "JetBrains Mono", monospace; font-size: 11px; }
+  .scan .buy { color: var(--green); }
+  .scan .sell { color: var(--red); }
+  .hero { width: 100%; max-height: 280px; object-fit: cover; object-position: top; border: 1px solid var(--line); display: block; }
+</style>
+</head>
+<body>
+<div class="toprule"></div>
+<header>
+  <p class="eyebrow">Prixville. · est. 2025</p>
+  <div class="brand"><h1>The<br>Ledger<span>.</span></h1><small id="count" style="color:var(--dim)"></small></div>
+  <p class="sub">Who bought it. Who posted it. Who sold into the replies.</p>
+</header>
+<div class="pillrow" id="filters"></div>
+<main id="app"></main>
+<p class="foot">© Prixville 2026 · Edge over polish</p>
+<nav>
+  <button data-tab="board" class="on">Ledger</button>
+  <button data-tab="crowd">Crowd</button>
+  <button data-tab="alerts">Alerts</button>
+  <button data-tab="method">Rules</button>
+  <button data-tab="build">Build</button>
+</nav>
+<script>
+const FILTERS = ["All", "Aligned", "Extractors", "Unverified", "Prixville"];
+
+/** Simulated dossiers. Not live chain data. Shape is the production schema. */
+const KOLS = [
+  {
+    handle: "floorpriest", name: "Floor Priest", followers: "48.2k", chain: "ETH",
+    wallet: "0x91c…a14 signed", verified: true, prix: false,
+    bio: "Posts only what the wallet already owns.",
+    events: [
+      { kind: "buy", t: "Tue 09:14", text: "Bought 2 Punk-adjacent pieces, 0.82 ETH, 6h before the post." },
+      { kind: "post", t: "Tue 15:02", text: "Posted the collection. No paid tag. Still holding both." },
+      { kind: "hold", t: "Now +9d", text: "No sell. Floor +11% since the post. Audience had the same entry window." }
+    ],
+    calls: [
+      { disclosed: true, hadBag: true, buyBeforeHours: 6, soldWithinHours: null, holdDays: 9, sizeEth: 0.82 },
+      { disclosed: true, hadBag: true, buyBeforeHours: 2, soldWithinHours: 240, holdDays: 18, sizeEth: 0.4 },
+      { disclosed: true, hadBag: true, buyBeforeHours: 14, soldWithinHours: null, holdDays: 30, sizeEth: 1.1 }
+    ]
+  },
+  {
+    handle: "mintmary", name: "Mint Mary", followers: "112k", chain: "Base",
+    wallet: "0x44e…09c signed", verified: true, prix: true,
+    bio: "Discloses every paid post. Small bag, slow exit.",
+    events: [
+      { kind: "buy", t: "Mon 11:40", text: "Minted 3 Prixville at public. 0.18 ETH." },
+      { kind: "post", t: "Mon 12:05", text: "Posted with #ad and a partner line. Bag already open." },
+      { kind: "hold", t: "Day 14", text: "Sold 1 of 3 into strength. Still holding 2." }
+    ],
+    calls: [
+      { disclosed: true, hadBag: true, buyBeforeHours: 0.4, soldWithinHours: 336, holdDays: 14, sizeEth: 0.18, prix: true },
+      { disclosed: true, hadBag: true, buyBeforeHours: 1, soldWithinHours: 200, holdDays: 11, sizeEth: 0.25 },
+      { disclosed: true, hadBag: false, buyBeforeHours: null, soldWithinHours: null, holdDays: 0, sizeEth: 0 }
+    ]
+  },
+  {
+    handle: "exitliq", name: "Exit Liq", followers: "206k", chain: "SOL",
+    wallet: "Hx9…k2 linked, unsigned", verified: false, prix: false,
+    bio: "Loud post, market sell inside the hour.",
+    events: [
+      { kind: "buy", t: "Wed 18:01", text: "Airdrop allocation landed. Did not buy the open market." },
+      { kind: "post", t: "Wed 18:22", text: "“Sending it. NFA.” No #ad. Replies spiked." },
+      { kind: "sell", t: "Wed 19:01", text: "Sold 100% 39 minutes later. Floor −22% over the next 6h." }
+    ],
+    calls: [
+      { disclosed: false, hadBag: true, buyBeforeHours: -0.3, soldWithinHours: 0.65, holdDays: 0, sizeEth: 1.4 },
+      { disclosed: false, hadBag: true, buyBeforeHours: 0.1, soldWithinHours: 2, holdDays: 0, sizeEth: 0.9 },
+      { disclosed: false, hadBag: true, buyBeforeHours: -1, soldWithinHours: 5, holdDays: 0, sizeEth: 2.2 },
+      { disclosed: false, hadBag: true, buyBeforeHours: 0, soldWithinHours: 1.2, holdDays: 0, sizeEth: 0.7 }
+    ]
+  },
+  {
+    handle: "cabaltwin", name: "Cabal Twin", followers: "61k", chain: "ETH",
+    wallet: "shared funder 0x0ab…e11", verified: true, prix: false,
+    bio: "Three accounts, one funding wallet, same-block buys.",
+    events: [
+      { kind: "buy", t: "Thu 02:14:01", text: "Bought in the same block as @alt1 and @alt2. Same funder." },
+      { kind: "post", t: "Thu 02:19", text: "All three accounts posted the ticker within 5 minutes." },
+      { kind: "sell", t: "Thu 06:40", text: "Cluster sold 70% into the mention wave." }
+    ],
+    calls: [
+      { disclosed: false, hadBag: true, buyBeforeHours: 0.08, soldWithinHours: 4, holdDays: 0, sizeEth: 3.1, cluster: true },
+      { disclosed: false, hadBag: true, buyBeforeHours: 0.05, soldWithinHours: 8, holdDays: 0, sizeEth: 1.8, cluster: true }
+    ],
+    cluster: true
+  },
+  {
+    handle: "ghostbag", name: "Ghost Bag", followers: "390k", chain: "—",
+    wallet: "none signed", verified: false, prix: false,
+    bio: "Follower count only. No wallet will sign a challenge.",
+    events: [
+      { kind: "post", t: "Fri 13:00", text: "Thread of 8 collections. Zero linked fills." },
+      { kind: "post", t: "Fri 13:40", text: "Deleted two older shills that went to zero." }
+    ],
+    calls: [
+      { disclosed: false, hadBag: false, buyBeforeHours: null, soldWithinHours: null, holdDays: 0, sizeEth: 0 },
+      { disclosed: false, hadBag: false, buyBeforeHours: null, soldWithinHours: null, holdDays: 0, sizeEth: 0 }
+    ]
+  },
+  {
+    handle: "slowhand", name: "Slow Hand", followers: "27.4k", chain: "ETH",
+    wallet: "0x77a…c02 signed", verified: true, prix: true,
+    bio: "Accumulates, then posts. Still in the Prixville piece.",
+    events: [
+      { kind: "buy", t: "Sat 08:12", text: "Bought 1 Prixville on secondary, 0.31 ETH, day before the post." },
+      { kind: "post", t: "Sun 09:00", text: "One post. No ticker spam. Holding." },
+      { kind: "hold", t: "Day 21", text: "Unsold. One transfer was a list at 1.4× that did not fill." }
+    ],
+    calls: [
+      { disclosed: true, hadBag: true, buyBeforeHours: 24, soldWithinHours: null, holdDays: 21, sizeEth: 0.31, prix: true },
+      { disclosed: true, hadBag: true, buyBeforeHours: 10, soldWithinHours: 400, holdDays: 20, sizeEth: 0.55 },
+      { disclosed: true, hadBag: true, buyBeforeHours: 48, soldWithinHours: null, holdDays: 40, sizeEth: 0.2 }
+    ]
+  }
+];
+
+const WALLETS = {
+  floorpriest: [
+    { addr: "0x91c4…a14", chain: "ETH", status: "signed", note: "Signed the Holdgrade challenge from this wallet." },
+    { addr: "floorpriest.eth", chain: "ETH", status: "self", note: "ENS in the X bio. Resolves to the signed wallet." },
+    { addr: "0x22b1…9fe", chain: "Base", status: "funded", note: "Funded by the signed wallet, two hops, 40 days ago." }
+  ],
+  mintmary: [
+    { addr: "0x44e8…09c", chain: "Base", status: "signed", note: "Signed. Minted the Prixville pieces from here." },
+    { addr: "mintmary.base", chain: "Base", status: "self", note: "Basename on the profile." },
+    { addr: "0x19aa…c71", chain: "ETH", status: "rumor", note: "Three community tips. No signature. Not used in the grade." }
+  ],
+  exitliq: [
+    { addr: "Hx9k…k2Qm", chain: "SOL", status: "self", note: "Posted once, then deleted. Unsigned." },
+    { addr: "9fR2…Lp8a", chain: "SOL", status: "payout", note: "Same address on a leaked promo sheet for four posts." },
+    { addr: "4cTe…91nx", chain: "SOL", status: "rumor", note: "Reply-guy claim. Single tip. Watching only." },
+    { addr: "0x8ac…441", chain: "ETH", status: "rumor", note: "Rumor of an ETH bag. No on-chain link yet." }
+  ],
+  cabaltwin: [
+    { addr: "0x0ab2…e11", chain: "ETH", status: "cluster", note: "Funder shared with @alt1 and @alt2." },
+    { addr: "0x61d0…bb4", chain: "ETH", status: "funded", note: "Trading wallet. First ETH came from the shared funder." },
+    { addr: "0x61d0…bb4", chain: "Base", status: "funded", note: "Same address bridged. Same-block buys as the alts." }
+  ],
+  ghostbag: [
+    { addr: "0xbe07…018", chain: "ETH", status: "rumor", note: "Anonymous tip after a deleted thread. Unconfirmed." },
+    { addr: "GsT…4p1", chain: "SOL", status: "rumor", note: "Second tip, different chain. No bio, no signature." }
+  ],
+  slowhand: [
+    { addr: "0x77a3…c02", chain: "ETH", status: "signed", note: "Signed. Prixville secondary buy is on this wallet." },
+    { addr: "slowhand.eth", chain: "ETH", status: "self", note: "ENS matches the handle." },
+    { addr: "0x5e10…d8a", chain: "ETH", status: "rumor", note: "Old address a reply claimed in 2024. No funding path." }
+  ]
+};
+const WALLET_LABEL = { signed: "Signed", self: "Self-linked", funded: "Funded by linked", payout: "Payout sheet", cluster: "Shared funder", rumor: "Rumor" };
+let rumors = {};
+try { rumors = JSON.parse(localStorage.getItem("holdgrade-rumors") || "{}"); } catch (e) { rumors = {}; }
+function walletList(handle) {
+  const extra = (rumors[handle] || []).map(r => ({ addr: r.addr, chain: r.chain || "?", status: "rumor", note: "You added this tip on this device. Not confirmed." }));
+  return (WALLETS[handle] || []).concat(extra);
+}
+const CROWD = {
+  floorpriest: { up: 842, down: 96, tags: { funny: 210, straight: 640, helpful: 388, annoying: 40, grifter: 22 } },
+  mintmary: { up: 1204, down: 310, tags: { funny: 90, straight: 880, helpful: 510, annoying: 70, grifter: 40 } },
+  exitliq: { up: 260, down: 1488, tags: { funny: 180, straight: 40, helpful: 20, annoying: 620, grifter: 990 } },
+  cabaltwin: { up: 74, down: 640, tags: { funny: 12, straight: 8, helpful: 4, annoying: 140, grifter: 410 } },
+  ghostbag: { up: 190, down: 870, tags: { funny: 300, straight: 20, helpful: 15, annoying: 500, grifter: 240 } },
+  slowhand: { up: 510, down: 44, tags: { funny: 60, straight: 400, helpful: 220, annoying: 18, grifter: 6 } }
+};
+const REASONS = [["funny","Funny"],["straight","Straight"],["helpful","Helpful"],["annoying","Annoying"],["grifter","Grifter energy"]];
+let myVotes = {};
+try { myVotes = JSON.parse(localStorage.getItem("holdgrade-votes") || "{}"); } catch (e) { myVotes = {}; }
+function saveVotes() { localStorage.setItem("holdgrade-votes", JSON.stringify(myVotes)); }
+function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+function tally(handle) {
+  const base = CROWD[handle] || { up: 0, down: 0, tags: {} };
+  const mine = myVotes[handle] || {};
+  let up = base.up, down = base.down;
+  if (mine.vote === "up") up += 1;
+  if (mine.vote === "down") down += 1;
+  const total = up + down;
+  const like = total ? Math.round(up / total * 100) : 0;
+  return { up, down, total, like, tags: base.tags, mine };
+}
+
+function scoreCall(c) {
+  let skin = 0, hold = 0, dump = 100, disc = c.disclosed ? 100 : 15;
+  if (!c.hadBag) skin = 0;
+  else if (c.buyBeforeHours == null) skin = 40;
+  else if (c.buyBeforeHours >= 6) skin = 100;
+  else if (c.buyBeforeHours >= 0) skin = 75;
+  else skin = 25; // bought after the post, or allocation only
+  if (c.sizeEth >= 0.3) skin = Math.min(100, skin + 8);
+  if (c.soldWithinHours == null) { hold = Math.min(100, 60 + c.holdDays * 2); dump = 100; }
+  else if (c.soldWithinHours <= 1) { hold = 0; dump = 0; }
+  else if (c.soldWithinHours <= 24) { hold = 20; dump = 15; }
+  else if (c.soldWithinHours <= 72) { hold = 45; dump = 40; }
+  else { hold = 70; dump = 75; }
+  if (c.cluster) dump = Math.min(dump, 20);
+  return { skin, hold, dump, disc };
+}
+
+function gradeKol(k) {
+  const parts = k.calls.map(scoreCall);
+  const avg = (key) => parts.reduce((s, p) => s + p[key], 0) / parts.length;
+  const skin = avg("skin");
+  const hold = avg("hold");
+  const dump = avg("dump");
+  const disc = avg("disc");
+  const wallet = k.verified ? (k.cluster ? 30 : 90) : 10;
+  const audience = k.handle === "ghostbag" ? 25 : 70;
+  let score = skin * 0.22 + hold * 0.25 + dump * 0.23 + disc * 0.12 + wallet * 0.12 + audience * 0.06;
+  const flags = [];
+  const fastDump = k.calls.filter(c => c.soldWithinHours != null && c.soldWithinHours <= 24).length / k.calls.length;
+  if (fastDump >= 0.5) { score = Math.min(score, 58); flags.push(["Sold inside 24h of post", "bad"]); }
+  if (!k.verified) { score = Math.min(score, 72); flags.push(["Wallet unsigned", "warn"]); }
+  if (k.cluster) { score = Math.min(score, 64); flags.push(["Shared funder cluster", "bad"]); }
+  const undisclosed = k.calls.filter(c => !c.disclosed).length / k.calls.length;
+  if (undisclosed > 0.5 && fastDump >= 0.5) { score = Math.min(score, 42); flags.push(["Undisclosed + dump", "bad"]); }
+  if (k.calls.every(c => c.disclosed) && k.verified) flags.push(["Discloses", "good"]);
+  if (k.calls.some(c => c.buyBeforeHours >= 6 && c.soldWithinHours == null)) flags.push(["Buys before posting", "good"]);
+  if (k.prix) flags.push(["Prixville bag", "good"]);
+  score = Math.round(clamp(score, 0, 100));
+  const letter = score >= 90 ? "A" : score >= 80 ? "B" : score >= 65 ? "C" : score >= 50 ? "D" : "F";
+  const label = { A: "Aligned", B: "Credible", C: "Mixed", D: "Conflicted", F: "Extractor" }[letter];
+  return { score, letter, label, skin: Math.round(skin), hold: Math.round(hold), dump: Math.round(dump), disc: Math.round(disc), wallet, flags };
+}
+
+const GRADED = KOLS.map(k => ({ ...k, g: gradeKol(k) }));
+
+let tab = "board";
+let filter = "All";
+let open = null;
+
+function passes(k) {
+  if (filter === "Aligned") return k.g.letter === "A" || k.g.letter === "B";
+  if (filter === "Extractors") return k.g.letter === "D" || k.g.letter === "F";
+  if (filter === "Unverified") return !k.verified;
+  if (filter === "Prixville") return k.prix;
+  return true;
+}
+
+function statDump(k) {
+  const sells = k.calls.filter(c => c.soldWithinHours != null && c.soldWithinHours <= 48).length;
+  return sells + "/" + k.calls.length;
+}
+function statHold(k) {
+  const holds = k.calls.map(c => c.holdDays);
+  const med = holds.slice().sort((a,b)=>a-b)[Math.floor(holds.length/2)];
+  return med + "d";
+}
+
+function renderFilters() {
+  document.getElementById("filters").innerHTML = FILTERS.map(f =>
+    `<button class="pill ${f===filter?"on":""}" data-f="${f}">${f}</button>`
+  ).join("");
+  document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { filter = b.dataset.f; open = null; draw(); });
+  document.getElementById("filters").style.display = tab === "board" ? "flex" : "none";
+}
+
+function board() {
+  const rows = GRADED.filter(passes);
+  document.getElementById("count").textContent = rows.length + " dossiers";
+  return `<div class="banner">Sample dossiers so you can feel the grade. Live mode joins a signed wallet to X posts and marketplace fills. Nothing here is a real person’s trades.</div>` +
+    rows.map(k => `
+      <article class="card tap" data-h="${k.handle}">
+        <div class="row">
+          <div class="av"><img src="shots/${k.handle}.jpg" alt="" /></div>
+          <div class="who"><b>@${k.handle}</b><small>${k.followers} · ${k.chain} · ${k.g.label}</small></div>
+          <div class="grade g${k.g.letter}">${k.g.letter}</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><em>Bag grade</em><strong>${k.g.score}</strong></div>
+          <div class="stat"><em>Likable</em><strong>${tally(k.handle).like}%</strong></div>
+          <div class="stat"><em>Wallets</em><strong>${walletList(k.handle).length}</strong></div>
+        </div>
+        <div>${k.g.flags.slice(0,3).map(f => `<span class="flag ${f[1]}">${f[0]}</span>`).join("")}</div>
+      </article>`).join("");
+}
+
+function voteBlock(k) {
+  const t = tally(k.handle);
+  const mine = t.mine;
+  return `
+    <h3>X crowd · likable?</h3>
+    <div class="card">
+      <div class="row">
+        <div class="who"><b>${t.like}% likable</b><small>${t.up} yes · ${t.down} no · one vote per X account</small></div>
+      </div>
+      <div class="bar"><i style="width:${t.like}%;background:var(--purple)"></i></div>
+      <div class="vote">
+        <button class="${mine.vote==='up'?'on-up':''}" data-vote="up">Likable</button>
+        <button class="${mine.vote==='down'?'on-down':''}" data-vote="down">Not for me</button>
+      </div>
+      <div class="reasons">
+        ${REASONS.map(([id, label]) => `<button class="${(mine.tags||[]).includes(id)?'on':''}" data-tag="${id}">${label}</button>`).join("")}
+      </div>
+      <p class="note" style="margin-top:8px">This vote does not move the bag grade. A liked dumper stays a dumper. Live votes require X login, account older than 90 days, one ballot per handle.</p>
+    </div>`;
+}
+
+function dossier(k) {
+  const g = k.g;
+  const bars = [
+    ["Skin in the game", g.skin, "Bought before the post, size that matters"],
+    ["Hold integrity", g.hold, "Days still holding after the mention"],
+    ["Dump alignment", g.dump, "100 means they did not sell into the reply wave"],
+    ["Disclosure", g.disc, "Paid posts labeled. NFA is not a disclosure"],
+    ["Wallet honesty", g.wallet, "Signed wallet, history matches the chain they talk about"]
+  ];
+  return `
+    <button class="back" id="back">← Board</button>
+    <div class="card">
+      <div class="row">
+        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small></div>
+        <div class="grade g${g.letter}">${g.letter}</div>
+      </div>
+      <p class="scorebig" style="color:${g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score}</p>
+      <p class="note">${g.label} · ${k.wallet} · crowd ${tally(k.handle).like}% likable</p>
+      <div>${g.flags.map(f => `<span class="flag ${f[1]}">${f[0]}</span>`).join("")}</div>
+    </div>
+    ${voteBlock(k)}
+    ${walletBlock(k)}
+    <h3>Why this grade</h3>
+    <div class="card">
+      ${bars.map(b => `<div class="metric"><div class="top"><b>${b[0]}</b><span>${b[1]}</span></div><div class="bar"><i style="width:${b[1]}%;background:${b[1]>=75?'var(--green)':b[1]>=50?'var(--amber)':'var(--red)'}"></i></div><p class="note" style="margin:4px 0 0">${b[2]}</p></div>`).join("")}
+    </div>
+    <img class="hero" src="shots/${k.handle}.jpg" alt="Fake portrait of @${k.handle}" />
+    <h3>Screenshots · sample evidence</h3>
+    <div class="card">
+      <div class="xpost">
+        <div class="hd"><img src="shots/${k.handle}.jpg" alt="" /><div><div class="nm">${k.name}</div><div class="at">@${k.handle} · sample post</div></div></div>
+        <p>${(k.events.find(e => e.kind==="post") || k.events[0]).text}</p>
+        <div class="xmeta">FAKE SCREEN · not a real X post</div>
+      </div>
+      <div class="scan">
+        <div>WALLET BOOK · ${k.wallet}</div>
+        ${k.events.map(e => `<div class="${e.kind}">${e.t} · ${e.kind.toUpperCase()} · ${e.text}</div>`).join("")}
+        <div class="xmeta">FAKE EXPLORER CROP · sample fills only</div>
+      </div>
+    </div>
+    <h3>Post clock</h3>
+    <div class="card"><div class="tl">
+      ${k.events.map(e => `<div class="ev ${e.kind}"><div class="t">${e.t} · ${e.kind}</div><p>${e.text}</p></div>`).join("")}
+    </div></div>
+    <p class="note">A green buy before a blue post is the pattern you pay for. A red sell inside an hour of the post is the pattern you blacklist.</p>`;
+}
+
+function walletBlock(k) {
+  const list = walletList(k.handle);
+  const rum = list.filter(w => w.status === "rumor").length;
+  const linked = list.length - rum;
+  return `
+    <h3>Wallets · ${linked} linked · ${rum} rumored</h3>
+    <div class="card">
+      ${list.map(w => `<div class="wrow"><div><div class="waddr">${w.addr}</div><p class="note" style="margin:3px 0 0">${w.chain} · ${w.note}</p></div><span class="wstatus w-${w.status}">${WALLET_LABEL[w.status]}</span></div>`).join("")}
+      <input class="tip" id="tip" placeholder="Add a rumored wallet (stays a rumor)" />
+      <div class="vote"><button id="add-tip">File as rumor</button></div>
+      <p class="note">Signed, self-linked, funded-by-linked, payout-sheet, and shared-funder wallets feed the clock. A lone rumor is listed and watched. It does not move the grade until a second independent link shows up.</p>
+    </div>`;
+}
+function bindWallet(handle) {
+  const btn = document.getElementById("add-tip");
+  if (!btn) return;
+  btn.onclick = () => {
+    const addr = (document.getElementById("tip").value || "").trim();
+    if (addr.length < 4) return;
+    rumors[handle] = rumors[handle] || [];
+    rumors[handle].push({ addr, chain: "tip" });
+    localStorage.setItem("holdgrade-rumors", JSON.stringify(rumors));
+    draw();
+  };
+}
+function bindVotes(handle) {
+  document.querySelectorAll("[data-vote]").forEach(b => b.onclick = () => {
+    myVotes[handle] = myVotes[handle] || { tags: [] };
+    myVotes[handle].vote = b.dataset.vote;
+    saveVotes();
+    draw();
+  });
+  document.querySelectorAll("[data-tag]").forEach(b => b.onclick = () => {
+    myVotes[handle] = myVotes[handle] || { tags: [] };
+    const tags = new Set(myVotes[handle].tags || []);
+    tags.has(b.dataset.tag) ? tags.delete(b.dataset.tag) : tags.add(b.dataset.tag);
+    myVotes[handle].tags = [...tags];
+    saveVotes();
+    draw();
+  });
+}
+
+function crowd() {
+  const rows = GRADED.map(k => ({ k, t: tally(k.handle) })).sort((a, b) => b.t.like - a.t.like);
+  document.getElementById("count").textContent = "X votes";
+  return `<div class="banner">Likability is a crowd ballot. It never edits the bag grade. Sample tallies until X login is wired. Your vote saves on this device.</div>` +
+    rows.map(({ k, t }) => `
+      <article class="card tap" data-h="${k.handle}">
+        <div class="row">
+          <div class="who"><b>@${k.handle}</b><small>${t.up} likable · ${t.down} not for me</small></div>
+          <div class="grade" style="background:transparent;color:#ff7347;border-color:#ff7347">${t.like}</div>
+        </div>
+        <div class="bar"><i style="width:${t.like}%;background:var(--purple)"></i></div>
+        <p class="note" style="margin-top:8px">Bag grade ${k.g.letter} · ${k.g.score}. ${t.like >= 60 && k.g.score < 65 ? "Liked, and still a bad bag." : "Crowd and chain are allowed to disagree."}</p>
+      </article>`).join("") +
+    `<div class="card"><b>How an X vote counts</b><ul class="clean"><li>Sign in with X. One ballot per account per KOL. Change it anytime.</li><li>Account older than 90 days. New accounts can read, not swing a tally.</li><li>Not weighted by followers. A 400k account does not outvote 400 people.</li><li>Optional second ballot for Prixville holders, shown separately, not folded in.</li><li>Tags are funny, straight, helpful, annoying, grifter energy. Tags are color, not the score.</li><li>Brigade spike: if 40% of votes land inside an hour from accounts that only vote that hour, freeze the tally and flag it.</li></ul></div>`;
+}
+
+function alerts() {
+  return `
+    <h2>Discord alerts</h2>
+    <p class="note">Same grade engine. The bot only pings when the clock flips, not on every tweet.</p>
+    <div class="discord"><div class="ch">#kol-alerts</div><div class="msg"><b>Holdgrade</b> · green<br>@slowhand bought 0.31 ETH of Prixville <b>24h before</b> posting. Grade B · 86. Still holding.</div></div>
+    <div class="discord"><div class="ch">#kol-alerts</div><div class="msg"><b>Holdgrade</b> · red<br>@exitliq posted, then sold <b>100% in 39 min</b>. Grade F · 38. Floor −22% after the mention. Do not pay this account.</div></div>
+    <div class="discord"><div class="ch">#kol-alerts</div><div class="msg"><b>Holdgrade</b> · cabal<br>@cabaltwin, @alt1, @alt2 bought in the same block from funder 0x0ab…e11, then posted within 5 minutes. Cluster flag. Grade capped.</div></div>
+    <h3>Commands</h3>
+    <div class="cmd">/grade handle:exitliq</div>
+    <div class="cmd">/watch collection:prixville min_grade:B</div>
+    <div class="cmd">/compare a:floorpriest b:exitliq</div>
+    <div class="cmd">/blacklist below:D</div>
+    <p class="note">Watch rules you actually want: ping only if they mention Prixville, bought first, and grade is B or better. Everything else stays on the board.</p>`;
+}
+
+function method() {
+  return `
+    <h2>The grade</h2>
+    <p class="note">0–100, then a letter. Hard caps stop a pretty average from hiding one ugly habit.</p>
+    <div class="card">
+      <div class="metric"><div class="top"><b>Skin</b><span>22%</span></div><p class="note">Buy before the post beats buy-after. No bag is a zero, not a neutral.</p></div>
+      <div class="metric"><div class="top"><b>Hold</b><span>25%</span></div><p class="note">Median days still in the piece after the mention.</p></div>
+      <div class="metric"><div class="top"><b>Dump clock</b><span>23%</span></div><p class="note">Sell inside 1h / 24h / 72h of their own post. This is the legitimacy test.</p></div>
+      <div class="metric"><div class="top"><b>Disclosure</b><span>12%</span></div><p class="note">#ad or a partner line. “NFA” does not count.</p></div>
+      <div class="metric"><div class="top"><b>Wallet</b><span>12%</span></div><p class="note">Signed message from the wallet they trade. Shared funder cuts this hard.</p></div>
+      <div class="metric"><div class="top"><b>Audience</b><span>6%</span></div><p class="note">Reply quality and, later, how many followers even have a funded wallet.</p></div>
+    </div>
+    <h3>Caps</h3>
+    <ul class="clean">
+      <li>Sold more than half the calls inside 24h → max 58 (D).</li>
+      <li>Undisclosed paid plus a fast dump → max 42 (F).</li>
+      <li>Shared funding wallet with other “KOLs” → max 64 unless they disclose the cluster.</li>
+      <li>No signed wallet → max 72. Follower count cannot carry the grade.</li>
+    </ul>
+    <h3>Crowd vote is not a grade</h3>
+    <div class="card note">Likability is a separate ballot from X. It never adds points to the bag score. Pay on the letter. Use the crowd number when two B-grades cost the same and you want the one people can stand.</div>
+    <div class="card note">A 90+ Aligned · B 80 Credible · C 65 Mixed · D 50 Conflicted · F below 50 Extractor. Pay A/B. Ignore F. Use C only with a written disclosure and a small test budget.</div>`;
+}
+
+function build() {
+  return `
+    <h2>Play, App Store, Discord</h2>
+    <p class="note">One API, three clients. This screen is the app shell. Store binaries wrap it. Discord consumes the same grades.</p>
+    <div class="card">
+      <b>Phase 1 — this app</b>
+      <p class="note">Mobile web, add to home screen today. Board, dossier, alert copy, grade math.</p>
+      <b>Phase 2 — live data</b>
+      <p class="note">Worker polls X for the watchlist, Reservoir or OpenSea for ETH/Base fills, Helius for Solana. Match post time to wallet fills ±72h.</p>
+      <b>Phase 3 — stores</b>
+      <p class="note">Capacitor wrap of this UI. Apple Developer and a Play Console account. TestFlight first, then review. No private keys in the app. Read-only.</p>
+    </div>
+    <h3>More than a leaderboard</h3>
+    <div class="card">
+      ${[
+        ["Shill-to-dump clock", "Minutes from their post to their sell. The number you screenshot."],
+        ["Copy window", "How long a follower had before the KOL exited. Under 30 min is a trap."],
+        ["Conviction", "ETH spent divided by followers. A 200k account risking 0.02 ETH is advertising, not belief."],
+        ["Cabal graph", "Shared funder, same-block buys, posts within 5 minutes. One grade for the cluster."],
+        ["Deleted post log", "Shills that vanish after the chart dies stay on the dossier."],
+        ["Signed challenge", "KOL signs a message to claim a wallet. Stall means the grade stays capped."],
+        ["Audience wallets", "What share of followers can even transact. Catches bought followers."],
+        ["Damage score", "Median result for wallets that bought within 2h of the post."],
+        ["Prixville desk", "Alert only on mentions or buys of your collection, min grade B, bought-first."],
+        ["Dispute", "They can sign and attach the tx. The timeline updates. The grade does not get a manual override."]
+      ].map(i => `<div class="idea"><div><div class="tag">Add</div><b>${i[0]}</b><p class="note" style="margin:2px 0 0">${i[1]}</p></div></div>`).join("")}
+    </div>
+    <h3>Stack</h3>
+    <ul class="clean">
+      <li>API: small Node service, Postgres for dossiers and events.</li>
+      <li>Chains: Reservoir or OpenSea activity on ETH/Base. Helius on Solana.</li>
+      <li>Social: X recent search on a fixed handle list. You already run Premium accounts.</li>
+      <li>Bot: discord.js, slash commands, one channel for red and one for green.</li>
+      <li>Apps: Capacitor iOS + Android around this UI. Push via the same alert rules.</li>
+    </ul>`;
+}
+
+function draw() {
+  renderFilters();
+  const root = document.getElementById("app");
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  if (tab === "board") {
+    root.innerHTML = open ? dossier(GRADED.find(k => k.handle === open)) : board();
+    if (open) {
+      document.getElementById("back").onclick = () => { open = null; draw(); };
+      bindVotes(open);
+      bindWallet(open);
+    }
+    root.querySelectorAll("[data-h]").forEach(el => el.onclick = () => { open = el.dataset.h; tab = "board"; draw(); });
+  } else if (tab === "crowd") {
+    root.innerHTML = crowd();
+    root.querySelectorAll("[data-h]").forEach(el => el.onclick = () => { open = el.dataset.h; tab = "board"; draw(); });
+  } else if (tab === "alerts") { document.getElementById("count").textContent = ""; root.innerHTML = alerts(); }
+  else if (tab === "method") { document.getElementById("count").textContent = ""; root.innerHTML = method(); }
+  else { document.getElementById("count").textContent = ""; root.innerHTML = build(); }
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => { tab = b.dataset.tab; open = null; draw(); });
+draw();
+</script>
+</body>
+</html>
