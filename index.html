@@ -291,7 +291,7 @@ const KOLS = [
     calls: []
   },
   {
-    accusations: 0, accusationNote: "A 2023 Ape sale was reported. No holder accusation thread in this pass.", years: 5.4, opened: "about 2021", cluster: false, handle: "osf", name: "OSF", followers: "artist", chain: "ETH",
+    accusations: 0, accusationNote: "A 2023 Ape sale was reported. No holder accusation thread in this pass.", years: 5.4, opened: "about 2021", cluster: false, support: 0, supportNote: "Makes the work. No pattern of buys from smaller artists found. Penalty stands.", artChecked: true, handle: "osf", name: "OSF", followers: "artist", chain: "ETH",
     wallet: "osf.eth", verified: false, prix: false, real: true,
     photo: "",
     bio: "Grade B, 88, Incomplete. Etherscan public name OSF. No phishing tag. About 0.04 ETH. A 2023 Ape sale is a sale, not an accusation.",
@@ -657,11 +657,10 @@ function accusationHit(k) {
   return Math.min(6, Math.round(raw));
 }
 function artHit(k) {
-  const makers = new Set(["beeple", "XCOPYART", "osf"]);
   const artKols = new Set(["garyvee", "beeple", "punk6529", "DeeZe", "pranksy", "frankdegods", "CozomoMedici", "farokh", "punk9059", "LucaNetz", "gmoneyNFT", "Zeneca", "osf", "XCOPYART", "dingalingts", "Tma_420", "eyezenhour", "lofitheyeti"]);
-  if (!artKols.has(k.handle) || makers.has(k.handle)) return 0;
+  if (!artKols.has(k.handle)) return 0;
   if (!k.artChecked) return 0;
-  if ((k.support || 0) > 0) return 0;
+  if (k.artPattern || (k.support || 0) >= 3) return 0;
   return 6;
 }
 function gradeKol(k) {
