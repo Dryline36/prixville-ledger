@@ -663,8 +663,15 @@ function artHit(k) {
   if (k.artPattern || (k.support || 0) >= 3) return 0;
   return 6;
 }
+function voteHit(k) {
+  const t = tally(k.handle);
+  if (!t.total) return 0;
+  if (t.like >= 60) return -Math.min(4, Math.round((t.like - 50) / 12));
+  if (t.like <= 40) return Math.min(4, Math.round((50 - t.like) / 12));
+  return 0;
+}
 function gradeKol(k) {
-  const hit = accusationHit(k) + artHit(k);
+  const hit = accusationHit(k) + artHit(k) + voteHit(k);
   if (!k.calls || !k.calls.length) {
     if (!hit && !(k.wallet && !String(k.wallet).startsWith("no "))) return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
     const score = 88 - hit;
@@ -690,7 +697,7 @@ function gradeKol(k) {
   if (k.calls.every(c => c.disclosed) && k.verified) flags.push(["Discloses", "good"]);
   if (k.calls.some(c => c.buyBeforeHours >= 6 && c.soldWithinHours == null)) flags.push(["Buys before posting", "good"]);
   if (k.prix) flags.push(["Prixville bag", "good"]);
-  score = Math.round(clamp(score - accusationHit(k) - artHit(k), 0, 100));
+  score = Math.round(clamp(score - accusationHit(k) - artHit(k) - voteHit(k), 0, 100));
   const letter = score >= 90 ? "A" : score >= 80 ? "B" : score >= 65 ? "C" : score >= 50 ? "D" : "F";
   const label = { A: "Aligned", B: "Credible", C: "Mixed", D: "Conflicted", F: "Extractor" }[letter];
   return { score, letter, label, skin: Math.round(skin), hold: Math.round(hold), dump: Math.round(dump), disc: Math.round(disc), wallet, flags };
@@ -848,6 +855,8 @@ function bindVotes(handle) {
     myVotes[handle] = myVotes[handle] || { tags: [] };
     myVotes[handle].vote = b.dataset.vote;
     saveVotes();
+    const row = GRADED.find(k => k.handle === handle);
+    if (row) row.g = gradeKol(row);
     draw();
   });
   document.querySelectorAll("[data-tag]").forEach(b => b.onclick = () => {
