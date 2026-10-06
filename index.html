@@ -738,21 +738,18 @@ function renderFilters() {
 function board() {
   const rows = GRADED.filter(passes);
   document.getElementById("count").textContent = rows.length + " dossiers";
-  return `<div class="banner">Sample dossiers so you can feel the grade. Live mode joins a signed wallet to X posts and marketplace fills. Nothing here is a real person’s trades.</div>` +
+  return `<div class="banner">Tap a name for the record. The board is the grade.</div>` +
     rows.map(k => `
       <article class="card tap" data-h="${k.handle}">
         <div class="row">
-          <div class="av"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /></div>
-          <div class="who"><b>@${k.handle}</b><small>${k.followers} · ${k.chain} · ${k.g.label}</small></div>
+          <div class="who"><b>@${k.handle}</b><small>${k.g.label}. ${k.g.score==null?"—":k.g.score}</small></div>
           <div class="grade g${k.g.letter}">${k.g.letter}</div>
         </div>
         <div class="stats">
-          <div class="stat"><em>Bag grade</em><strong>${k.g.score==null?'—':k.g.score}</strong></div>
-          <div class="stat"><em>Likable</em><strong>${CROWD[k.handle]?tally(k.handle).like+'%':'—'}</strong></div>
-          <div class="stat"><em>Wallets</em><strong>${walletList(k.handle).length}</strong></div>
-          <div class="stat"><em>Accusations</em><strong>${k.accusations || 0}</strong></div>
+          <div class="stat"><em>Art</em><strong>${k.artPattern?"Clear":k.artChecked?"Short":"—"}</strong></div>
+          <div class="stat"><em>Votes</em><strong>${tally(k.handle).total}</strong></div>
+          <div class="stat"><em>Dump</em><strong>${k.g.dump?"Yes":"No"}</strong></div>
         </div>
-        <div>${k.g.flags.slice(0,3).map(f => `<span class="flag ${f[1]}">${f[0]}</span>`).join("")}</div>
       </article>`).join("");
 }
 
