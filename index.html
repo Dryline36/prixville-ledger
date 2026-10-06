@@ -299,7 +299,7 @@ const KOLS = [
     calls: []
   },
   {
-    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 16, opened: "about 2010", cluster: false, handle: "XCOPYART", name: "XCOPY", followers: "256k", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 16, opened: "about 2010", cluster: false, support: 1, supportNote: "OpenSea bag holds an OSF Red Lite District edition. Another artist, not a small one.", handle: "XCOPYART", name: "XCOPY", followers: "256k", chain: "ETH",
     wallet: "OpenSea username XCOPY", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2006037095962247168/JxhvwKeJ.jpg",
     bio: "Grade B, 88, Incomplete. OpenSea username XCOPY, joined Jun 2018, one public wallet. Full address not on the extract. No accusation thread.",
@@ -325,7 +325,7 @@ const KOLS = [
     calls: []
   },
   {
-    accusations: 1, accusationNote: "Oct 5 2026: one reply said he did art for a coin that was a scam.", years: 17, opened: "about 2009", cluster: false, handle: "beeple", name: "beeple", followers: "1.15m", chain: "—",
+    accusations: 1, accusationNote: "Oct 5 2026: one reply said he did art for a coin that was a scam.", years: 17, opened: "about 2009", cluster: false, support: 0, supportNote: "He is the artist. Own Everydays do not count as support. No smaller-artist buy found.", handle: "beeple", name: "beeple", followers: "1.15m", chain: "—",
     wallet: "0xc6b0…3807", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/264316321/beeple_headshot_beat_up.jpg",
     bio: "Everydays. OpenSea username beeple, one public wallet, Everydays in the bag.",
@@ -335,7 +335,7 @@ const KOLS = [
     calls: []
   },
   {
-    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 5.4, opened: "2021-05-01", cluster: false, linked: true, handle: "punk6529", name: "6529", followers: "488k", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 5.4, opened: "2021-05-01", cluster: false, linked: true, support: 1, supportNote: "The Memes commissions cards from established and emerging artists. Counted as one program, not one buy per artist.", handle: "punk6529", name: "6529", followers: "488k", chain: "ETH",
     wallet: "punk6529.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/1784231403325943808/PBDWE07Y.jpg",
     bio: "Collector. The Memes, CC0. ENS is public. Not a signed Holdgrade wallet.",
@@ -376,7 +376,7 @@ const KOLS = [
     calls: []
   },
   {
-    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 5.1, opened: "2021-08-30", cluster: false, linked: true, handle: "CozomoMedici", name: "Cozomo de’ Medici", followers: "307k", chain: "ETH",
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 5.1, opened: "2021-08-30", cluster: false, linked: true, support: 2, supportNote: "Jan 9 2023 Absolutely Wrong thanked him for a work in the collection. May 28 2026 ArtTank acquired spellamin, and the artist thanked him.", handle: "CozomoMedici", name: "Cozomo de’ Medici", followers: "307k", chain: "ETH",
     wallet: "cozomomedici.eth", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/1977822248070426624/c8ViMOvf.jpg",
     bio: "Collector. OpenSea bio says the vault moved to TheMediciCollection.eth.",
@@ -776,7 +776,8 @@ function dossier(k) {
     <button class="back" id="back">← Board</button>
     <div class="card">
       <div class="row">
-        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations over ${k.years||"?"} years. Cap 6, and only a nudge. ${k.cluster?"Wallet cluster.":k.linked?"Linked wallets, not a cluster.":"No cluster."} ${k.accusationNote||""}</small></div>
+        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations over ${k.years||"?"} years. Cap 6, and only a nudge. ${k.cluster?"Wallet cluster.":k.linked?"Linked wallets, not a cluster.":"No cluster."} ${k.accusationNote||""}</small>
+        <small style="display:block;margin-top:6px">${k.support||0} artist supports. ${k.supportNote||"No 1/1 or small-artist thank-you in this pass. A PFP sweep does not count."}</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
