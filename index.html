@@ -453,7 +453,7 @@ function accusationHit(k) {
 function gradeKol(k) {
   const hit = accusationHit(k);
   if (!k.calls || !k.calls.length) {
-    if (!hit) return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
+    if (!hit && !(k.wallet && !String(k.wallet).startsWith("no "))) return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
     const score = 88 - hit;
     const letter = score >= 80 ? "B" : "C";
     return { score, letter, label: "Incomplete", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 6", "warn"]] };
