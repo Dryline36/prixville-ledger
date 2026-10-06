@@ -447,16 +447,16 @@ function scoreCall(c) {
 function accusationHit(k) {
   const n = k.accusations || 0;
   const years = k.years || 3;
-  const raw = n * 4 * (3 / years);
-  return Math.min(12, Math.round(raw));
+  const raw = n * 2 * (3 / years);
+  return Math.min(6, Math.round(raw));
 }
 function gradeKol(k) {
   const hit = accusationHit(k);
   if (!k.calls || !k.calls.length) {
     if (!hit) return { score: null, letter: "–", label: "Unscored", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"]] };
-    const score = 70 - hit;
-    const letter = score >= 65 ? "C" : "D";
-    return { score, letter, label: letter === "C" ? "Mixed" : "Conflicted", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 12", "warn"]] };
+    const score = 88 - hit;
+    const letter = score >= 80 ? "B" : "C";
+    return { score, letter, label: "Incomplete", skin: 0, hold: 0, dump: 0, disc: 0, wallet: 0, flags: [["No matched fills", "warn"], ["Accusations capped at 6", "warn"]] };
   }
   const parts = k.calls.map(scoreCall);
   const avg = (key) => parts.reduce((s, p) => s + p[key], 0) / parts.length;
@@ -570,7 +570,7 @@ function dossier(k) {
     <button class="back" id="back">← Board</button>
     <div class="card">
       <div class="row">
-        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations over ${k.years||"?"} years. Cap 12. ${k.cluster?"Wallet cluster.":k.linked?"Linked wallets, not a cluster.":"No cluster."} ${k.accusationNote||""}</small></div>
+        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations over ${k.years||"?"} years. Cap 6, and only a nudge. ${k.cluster?"Wallet cluster.":k.linked?"Linked wallets, not a cluster.":"No cluster."} ${k.accusationNote||""}</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
