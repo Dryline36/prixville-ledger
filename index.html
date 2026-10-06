@@ -139,7 +139,47 @@ const FILTERS = ["All", "Aligned", "Extractors", "Unverified", "Prixville"];
 /** Simulated dossiers. Not live chain data. Shape is the production schema. */
 const KOLS = [
   {
-    accusations: 1, accusationNote: "Oct 2 2026: one post tagged him and VeeFriends with a rug warning. No holder case attached.", years: 19.4, opened: "2007-05-04", cluster: false, handle: "garyvee", name: "Gary Vaynerchuk", followers: "3.1m", chain: "ETH",
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 6.0, opened: "2020-09-30", cluster: false, handle: "gmoneyNFT", name: "gmoney", followers: "318k", chain: "ETH",
+    wallet: "gmoney.eth", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/1626216945698881541/kF6xM_Cb.jpg",
+    bio: "gmoney.eth verifies to @gmoneynft. One public address. No dump lined up with a post.",
+    events: [{ kind: "post", t: "ENS", text: "gmoney.eth resolves to 0xf0d6…c09b. X verified on the ENS page." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 5.6, opened: "2021-03-12", cluster: false, handle: "Zeneca", name: "Zeneca", followers: "400k", chain: "ETH",
+    wallet: "zeneca.eth", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/1611896417601077249/AzCNSLDN.jpg",
+    bio: "Collector and writer. zeneca.eth is public. No accusation thread in this pass.",
+    events: [{ kind: "post", t: "ENS", text: "zeneca.eth resolves to 0x8864…b787. Account opened Mar 12, 2021." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "A 2023 Ape sale was reported. No holder accusation thread in this pass.", years: 5.4, opened: "about 2021", cluster: false, handle: "osf", name: "OSF", followers: "artist", chain: "ETH",
+    wallet: "osf.eth", verified: false, prix: false, real: true,
+    photo: "",
+    bio: "Rekt Guy and Red Lite District. osf.eth verifies to an X account. OpenSea username OSF, one public wallet.",
+    events: [{ kind: "post", t: "ENS", text: "osf.eth resolves to 0xdcae…3bd1. No post-to-fill match." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 16, opened: "about 2010", cluster: false, handle: "XCOPYART", name: "XCOPY", followers: "256k", chain: "ETH",
+    wallet: "OpenSea username XCOPY", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2006037095962247168/JxhvwKeJ.jpg",
+    bio: "Artist. OpenSea username XCOPY, joined Jun 2018, one public wallet. Full address not on the page we pulled.",
+    events: [{ kind: "post", t: "OpenSea", text: "Profile lists one wallet and holds his own Async pieces. Address not copied in this pass." }],
+    calls: []
+  },
+  {
+    accusations: 0, accusationNote: "No dated accusation thread in this pass.", years: 8.8, opened: "2017-11-30", cluster: false, handle: "dingalingts", name: "dingaling", followers: "252k", chain: "ETH",
+    wallet: "dingaling.eth", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/1671535865145745410/DaM1zme1.jpg",
+    bio: "dingaling.eth verifies to @dingalingts. No cluster, no accusation thread.",
+    events: [{ kind: "post", t: "ENS", text: "dingaling.eth resolves to 0x54be…9c5e. X verified on the ENS page." }],
+    calls: []
+  },
+      accusations: 1, accusationNote: "Oct 2 2026: one post tagged him and VeeFriends with a rug warning. No holder case attached.", years: 19.4, opened: "2007-05-04", cluster: false, handle: "garyvee", name: "Gary Vaynerchuk", followers: "3.1m", chain: "ETH",
     wallet: "no public wallet", verified: false, prix: false, real: true,
     photo: "https://pbs.twimg.com/profile_images/2104354219377516544/oSNAfvnO.jpg",
     bio: "VeeFriends. Public post on Sep 28 asking a collector for an ETH wallet. No wallet confirmed here.",
@@ -331,6 +371,21 @@ const KOLS = [
 ];
 
 const WALLETS = {
+  gmoneyNFT: [
+    { addr: "0xf0d6999725115e3ead3d927eb3329d63afaec09b", chain: "ETH", status: "self", note: "gmoney.eth. ENS page verifies X as gmoneynft." }
+  ],
+  Zeneca: [
+    { addr: "0x886478d3cf9581b624cb35b5446693fc8a58b787", chain: "ETH", status: "self", note: "zeneca.eth. Public resolution. No second wallet in this pass." }
+  ],
+  osf: [
+    { addr: "0xdcae87821fa6caea05dbc2811126f4bc7ff73bd1", chain: "ETH", status: "self", note: "osf.eth. ENS page verifies an X account. OpenSea username OSF, one public wallet." }
+  ],
+  XCOPYART: [
+    { addr: "OpenSea username XCOPY", chain: "ETH", status: "self", note: "Joined Jun 2018, one public wallet. Full address was not on the profile extract." }
+  ],
+  dingalingts: [
+    { addr: "0x54be3a794282c030b15e43ae2bb182e14c409c5e", chain: "ETH", status: "self", note: "dingaling.eth. ENS page verifies X as dingalingts." }
+  ],
   garyvee: [
     { addr: "none on OpenSea", chain: "ETH", status: "rumor", note: "opensea.io/garyvee is a 404. Sep 28 post asked for an ETH wallet and did not publish one. A garyvvee.eth page points at a different social graph, so it is not listed." }
   ],
@@ -522,7 +577,7 @@ function board() {
     rows.map(k => `
       <article class="card tap" data-h="${k.handle}">
         <div class="row">
-          <div class="av"><img src="${k.photo || ('shots/' + k.handle + '.jpg')}" alt="" /></div>
+          <div class="av"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /></div>
           <div class="who"><b>@${k.handle}</b><small>${k.followers} · ${k.chain} · ${k.g.label}</small></div>
           <div class="grade g${k.g.letter}">${k.g.letter}</div>
         </div>
@@ -583,11 +638,11 @@ function dossier(k) {
     <div class="card">
       ${bars.map(b => `<div class="metric"><div class="top"><b>${b[0]}</b><span>${b[1]}</span></div><div class="bar"><i style="width:${b[1]}%;background:${b[1]>=75?'var(--green)':b[1]>=50?'var(--amber)':'var(--red)'}"></i></div><p class="note" style="margin:4px 0 0">${b[2]}</p></div>`).join("")}
     </div>
-    <img class="hero" src="${k.photo || ('shots/' + k.handle + '.jpg')}" alt="@${k.handle}" />
+    <img class="hero" src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="@${k.handle}" />
     <h3>Screenshots · sample evidence</h3>
     <div class="card">
       <div class="xpost">
-        <div class="hd"><img src="${k.photo || ('shots/' + k.handle + '.jpg')}" alt="" /><div><div class="nm">${k.name}</div><div class="at">@${k.handle} · ${k.real ? 'public post' : 'sample post'}</div></div></div>
+        <div class="hd"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /><div><div class="nm">${k.name}</div><div class="at">@${k.handle} · ${k.real ? 'public post' : 'sample post'}</div></div></div>
         <p>${(k.events.find(e => e.kind==="post") || k.events[0]).text}</p>
         <div class="xmeta">FAKE SCREEN · not a real X post</div>
       </div>
