@@ -190,6 +190,56 @@ const KOLS = [
   },
 
   {
+    handle: "frankdegods", name: "Frank", followers: "536k", chain: "ETH",
+    wallet: "frankdegods.eth", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2060043584204689410/Sh83nkwV.jpg",
+    bio: "DeGods. frankdegods.eth resolves publicly. Etherscan has no name tag on that address. A Solana address is only a third-party claim.",
+    events: [
+      { kind: "post", t: "ENS", text: "frankdegods.eth resolves to 0x061a…603fb. No phishing tag. No post lined up with a fill." }
+    ],
+    calls: []
+  },
+  {
+    handle: "CozomoMedici", name: "Cozomo de’ Medici", followers: "307k", chain: "ETH",
+    wallet: "cozomomedici.eth", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/1977822248070426624/c8ViMOvf.jpg",
+    bio: "Collector. OpenSea bio says the vault moved to TheMediciCollection.eth.",
+    events: [
+      { kind: "post", t: "OpenSea", text: "Username Cozomo_de_Medici, joined Aug 2021. Bio points the vault at TheMediciCollection.eth." }
+    ],
+    calls: []
+  },
+  {
+    handle: "farokh", name: "Farokh", followers: "449k", chain: "ETH",
+    wallet: "farokh.eth", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2080312893979983872/7jHMOx8L.jpg",
+    bio: "Rug Radio and FOMO HOUR. OpenSea username Farokh, one public wallet.",
+    events: [
+      { kind: "post", t: "OpenSea", text: "farokh.eth is the Etherscan name. No phishing or sanction tag. No post-to-fill match." }
+    ],
+    calls: []
+  },
+  {
+    handle: "punk9059", name: "Stats", followers: "132k", chain: "ETH",
+    wallet: "punk9059.eth grace", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/2104670086011473920/UUwYKd3m.jpg",
+    bio: "NFT stats. punk9059.eth is in its grace period. Name match only.",
+    events: [
+      { kind: "post", t: "ENS", text: "punk9059.eth expired Aug 25, 2026. Grace runs to Nov 23, 2026. Resolved address still on the page." }
+    ],
+    calls: []
+  },
+  {
+    handle: "LucaNetz", name: "Luca Netz", followers: "230k", chain: "—",
+    wallet: "no public wallet", verified: false, prix: false, real: true,
+    photo: "https://pbs.twimg.com/profile_images/1849498278255071232/drdvg74U.jpg",
+    bio: "Pudgy Penguins. No personal wallet on a public ENS or OpenSea profile in this pass.",
+    events: [
+      { kind: "post", t: "Public", text: "Posts about the brand and OpenSea. No address published on the card." }
+    ],
+    calls: []
+  },
+  {
     handle: "floorpriest", name: "Floor Priest", followers: "48.2k", chain: "ETH",
     wallet: "0x91c…a14 signed", verified: true, prix: false,
     bio: "Posts only what the wallet already owns.",
@@ -297,6 +347,23 @@ const WALLETS = {
   ],
   pranksy: [
     { addr: "0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459", chain: "ETH", status: "self", note: "Etherscan public name Pranksy. Only extra label is Contract Deployer. No warning banner. About 0.03 ETH." }
+  ],
+  frankdegods: [
+    { addr: "0x061a068e0433cd9aea76e4ff843f007aba8603fb", chain: "ETH", status: "self", note: "frankdegods.eth resolves here. Etherscan shows no name tag and no phishing label. About 0.005 ETH." },
+    { addr: "498g1rVnFcnjBjpfw1xyqA1WvgQXUU8RWuELjxkjAayQ", chain: "SOL", status: "rumor", note: "KOL Explorer lists this as his Solana wallet. He has not signed it here. Not used in a grade." }
+  ],
+  CozomoMedici: [
+    { addr: "0xce90a7949bb78892f159f428d0dc23a8e3584d75", chain: "ETH", status: "self", note: "cozomomedici.eth. Etherscan public name CozomoMedici. No phishing tag. About 0.43 ETH." },
+    { addr: "0xbe6d399a02182d7324ff44d14c08a40e9968b09a", chain: "ETH", status: "self", note: "TheMediciCollection.eth. OpenSea bio says the vault moved here." }
+  ],
+  farokh: [
+    { addr: "0xc5f59709974262c4afacc5386287820bdbc7eb3a", chain: "ETH", status: "self", note: "farokh.eth. Etherscan name matches. OpenSea username Farokh, one public wallet. No phishing tag. About 0.01 ETH." }
+  ],
+  punk9059: [
+    { addr: "0x17fef061ac9fc0cd662a9d759a328c3296e13c4e", chain: "ETH", status: "self", note: "punk9059.eth. ENS app says the name expired Aug 25, 2026, grace ends Nov 23, 2026. Name match only." }
+  ],
+  LucaNetz: [
+    { addr: "none on a public profile", chain: "—", status: "rumor", note: "No personal ENS or OpenSea wallet found. Brand posts are not a wallet." }
   ],
   floorpriest: [
     { addr: "0x91c4…a14", chain: "ETH", status: "signed", note: "Signed the Holdgrade challenge from this wallet." },
