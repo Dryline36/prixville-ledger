@@ -743,6 +743,7 @@ function board() {
     rows.map(k => `
       <article class="card tap" data-h="${k.handle}">
         <div class="row">
+          <div class="av"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /></div>
           <div class="who"><b>@${k.handle}</b><small>${k.g.label}. ${k.g.score==null?"—":k.g.score}</small></div>
           <div class="grade g${k.g.letter}">${k.g.letter}</div>
         </div>
