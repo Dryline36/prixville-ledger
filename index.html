@@ -778,51 +778,29 @@ function voteBlock(k) {
 
 function dossier(k) {
   const g = k.g;
-  const bars = [
-    ["Skin in the game", g.skin, "Bought before the post, size that matters"],
-    ["Hold integrity", g.hold, "Days still holding after the mention"],
-    ["Dump alignment", g.dump, "100 means they did not sell into the reply wave"],
-    ["Disclosure", g.disc, "Paid posts labeled. NFA is not a disclosure"],
-    ["Wallet honesty", g.wallet, "Signed wallet, history matches the chain they talk about"]
-  ];
+  const art = k.artPattern ? "Yes" : k.artChecked ? "No" : "—";
   return `
     <button class="back" id="back">← Board</button>
     <div class="card">
       <div class="row">
-        <div class="who"><b>@${k.handle}</b><small>${k.bio}</small><small style="display:block;margin-top:6px">${k.accusations||0} accusations over ${k.years||"?"} years. Cap 6, and only a nudge. ${k.cluster?"Wallet cluster.":k.linked?"Linked wallets, not a cluster.":"No cluster."} ${k.accusationNote||""}</small>
-        <small style="display:block;margin-top:6px">${k.support||0} artist supports. ${k.supportNote||"No public 1/1 buy. That costs 6 on an NFT card. A PFP sweep does not count."}</small>
-        <small style="display:block;margin-top:6px">${tally(k.handle).total} X votes. The grade does not move until 10. Then a no pile costs up to 4, and a yes pile adds up to 4.</small></div>
+        <div class="av"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /></div>
+        <div class="who"><b>@${k.handle}</b><small>${g.label}</small></div>
         <div class="grade g${g.letter}">${g.letter}</div>
       </div>
       <p class="scorebig" style="color:${g.score==null?'var(--muted)':g.letter==='A'||g.letter==='B'?'var(--green)':g.letter==='C'?'var(--amber)':'var(--red)'}">${g.score==null?'—':g.score}</p>
-      <p class="note">${g.label} · ${k.wallet} · crowd ${tally(k.handle).like}% likable</p>
-      <div>${g.flags.map(f => `<span class="flag ${f[1]}">${f[0]}</span>`).join("")}</div>
+      <div class="stats">
+        <div class="stat"><em>Bought art</em><strong>${art}</strong></div>
+        <div class="stat"><em>Votes</em><strong>${tally(k.handle).total}</strong></div>
+        <div class="stat"><em>Sold after post</em><strong>${g.dump?"Yes":"No"}</strong></div>
+        <div class="stat"><em>Accusations</em><strong>${k.accusations||0}</strong></div>
+      </div>
     </div>
     ${voteBlock(k)}
     ${walletBlock(k)}
-    <h3>Why this grade</h3>
-    <div class="card">
-      ${bars.map(b => `<div class="metric"><div class="top"><b>${b[0]}</b><span>${b[1]}</span></div><div class="bar"><i style="width:${b[1]}%;background:${b[1]>=75?'var(--green)':b[1]>=50?'var(--amber)':'var(--red)'}"></i></div><p class="note" style="margin:4px 0 0">${b[2]}</p></div>`).join("")}
-    </div>
-    <img class="hero" src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="@${k.handle}" />
-    <h3>Screenshots · sample evidence</h3>
-    <div class="card">
-      <div class="xpost">
-        <div class="hd"><img src="${k.photo || ("shots/" + k.handle + ".jpg")}" alt="" /><div><div class="nm">${k.name}</div><div class="at">@${k.handle} · ${k.real ? 'public post' : 'sample post'}</div></div></div>
-        <p>${(k.events.find(e => e.kind==="post") || k.events[0]).text}</p>
-        <div class="xmeta">FAKE SCREEN · not a real X post</div>
-      </div>
-      <div class="scan">
-        <div>WALLET BOOK · ${k.wallet}</div>
-        ${k.events.map(e => `<div class="${e.kind}">${e.t} · ${e.kind.toUpperCase()} · ${e.text}</div>`).join("")}
-        <div class="xmeta">FAKE EXPLORER CROP · sample fills only</div>
-      </div>
-    </div>
-    <h3>Post clock</h3>
+    <h3>Record</h3>
     <div class="card"><div class="tl">
-      ${k.events.map(e => `<div class="ev ${e.kind}"><div class="t">${e.t} · ${e.kind}</div><p>${e.text}</p></div>`).join("")}
-    </div></div>
-    <p class="note">A green buy before a blue post is the pattern you pay for. A red sell inside an hour of the post is the pattern you blacklist.</p>`;
+      ${k.events.slice(0,3).map(e => `<div class="ev ${e.kind}"><div class="t">${e.t}</div><p>${e.text}</p></div>`).join("")}
+    </div></div>`;
 }
 
 function walletBlock(k) {
@@ -833,9 +811,8 @@ function walletBlock(k) {
     <h3>Wallets · ${linked} linked · ${rum} rumored</h3>
     <div class="card">
       ${list.map(w => `<div class="wrow"><div><div class="waddr">${w.addr}</div><p class="note" style="margin:3px 0 0">${w.chain} · ${w.note}</p></div><span class="wstatus w-${w.status}">${WALLET_LABEL[w.status]}</span></div>`).join("")}
-      <input class="tip" id="tip" placeholder="Add a rumored wallet (stays a rumor)" />
+      <input class="tip" id="tip" placeholder="Add a rumored wallet" />
       <div class="vote"><button id="add-tip">File as rumor</button></div>
-      <p class="note">Signed, self-linked, funded-by-linked, payout-sheet, and shared-funder wallets feed the clock. A lone rumor is listed and watched. It does not move the grade until a second independent link shows up.</p>
     </div>`;
 }
 function bindWallet(handle) {
