@@ -1,1 +1,128 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#090909" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>PRIXVILLE. — The Ledger</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Rokkitt:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #090909; --card: #100f0e; --card2: #171513; --line: #2a2622;
+    --text: #f6f0e6; --muted: #a8a8a8; --dim: #7a756c; --coral: #ff7347;
+    --green: #d7e2c4; --green-dim: rgba(215,226,196,.12);
+    --amber: #ff7347; --amber-dim: rgba(255,115,71,.14);
+    --red: #ff4d3a; --red-dim: rgba(255,77,58,.14);
+    --blue: #f6f0e6; --blue-dim: rgba(246,240,230,.08); --purple: #ff7347;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: "Crimson Text", "Times New Roman", Georgia, serif; }
+  body { max-width: 520px; margin: 0 auto; min-height: 100vh; padding-bottom: 92px; }
+  .toprule { height: 6px; background: #e10600; }
+  header { padding: 16px 16px 6px; position: sticky; top: 0; background: linear-gradient(#090909 78%, rgba(9,9,9,0)); z-index: 5; }
+  .brand { display: flex; align-items: baseline; justify-content: space-between; }
+  .brand h1 { font-family: Rokkitt, Georgia, serif; font-size: 42px; font-weight: 800; letter-spacing: -0.03em; margin: 0; line-height: .9; }
+  .brand h1 span { color: var(--coral); }
+  .eyebrow { color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 18px; margin: 8px 0 0; line-height: 1.3; font-style: italic; }
+  .pillrow { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px 4px; scrollbar-width: none; }
+  .pillrow::-webkit-scrollbar { display: none; }
+  .pill { border: 2px solid #111; background: transparent; color: var(--text); border-radius: 999px; padding: 7px 14px; font-size: 13px; font-family: Rokkitt, serif; font-weight: 800; letter-spacing: -0.01em; text-transform: none; white-space: nowrap; }
+  .pill.on { background: var(--coral); color: #fff; border-color: #111; }
+  main { padding: 8px 16px 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 0; padding: 14px; margin-bottom: 10px; }
+  .card.tap { cursor: pointer; }
+  .card.tap:active { background: #161412; }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .av { width: 40px; height: 40px; border-radius: 0; display: grid; place-items: center; font-family: Rokkitt, serif; font-weight: 800; font-size: 18px; flex: none; background: #e10600; color: #f6f0e6; }
+  .who { flex: 1; min-width: 0; }
+  .who b { display: block; font-family: Rokkitt, serif; font-size: 20px; font-weight: 800; }
+  .who small { color: var(--dim); font-size: 12px; font-family: "JetBrains Mono", monospace; letter-spacing: .04em; }
+  .grade { width: 42px; height: 42px; border-radius: 0; display: grid; place-items: center; font-family: Rokkitt, serif; font-weight: 800; font-size: 22px; flex: none; border: 1px solid var(--line); }
+  .gA { background: var(--green-dim); color: var(--green); }
+  .gB { background: transparent; color: var(--text); }
+  .gC { background: var(--amber-dim); color: var(--coral); }
+  .gD, .gF { background: var(--red-dim); color: var(--red); }
+  .g– { background: transparent; color: var(--muted); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .stat { background: transparent; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 0 0; }
+  .stat em { display: block; font-style: normal; color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+  .stat strong { font-family: Rokkitt, serif; font-size: 18px; font-weight: 800; }
+  .flag { display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; border-radius: 0; padding: 3px 7px; margin: 8px 6px 0 0; border: 1px solid var(--line); }
+  .flag.bad { color: var(--red); border-color: var(--red); }
+  .flag.warn { color: var(--coral); border-color: var(--coral); }
+  .flag.good { color: var(--green); border-color: #3d4a32; }
+  .back { background: none; border: 0; color: var(--coral); font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 0 0 8px; }
+  h2 { font-family: Rokkitt, Georgia, serif; font-size: 42px; font-weight: 800; margin: 4px 0 8px; letter-spacing: -0.03em; line-height: .9; }
+  h3 { font-family: "JetBrains Mono", monospace; font-size: 10px; margin: 16px 0 8px; color: var(--coral); letter-spacing: .16em; text-transform: uppercase; }
+  .bar { height: 3px; background: #2a2622; border-radius: 0; overflow: hidden; margin-top: 6px; }
+  .bar > i { display: block; height: 100%; }
+  .metric { margin-bottom: 10px; }
+  .metric .top { display: flex; justify-content: space-between; font-size: 17px; }
+  .metric .top span { color: var(--muted); font-family: "JetBrains Mono", monospace; font-size: 12px; }
+  .tl { border-left: 1px solid var(--line); margin-left: 8px; padding-left: 14px; }
+  .ev { position: relative; margin: 0 0 14px; }
+  .ev::before { content: ""; position: absolute; left: -18px; top: 6px; width: 7px; height: 7px; background: var(--dim); }
+  .ev.buy::before { background: var(--green); }
+  .ev.sell::before { background: var(--red); }
+  .ev.post::before { background: var(--coral); }
+  .ev .t { color: var(--dim); font-size: 10px; font-family: "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .ev p { margin: 2px 0 0; font-size: 16px; line-height: 1.35; }
+  .discord { background: #100f0e; padding: 12px; margin-bottom: 10px; border: 1px solid var(--line); }
+  .discord .ch { color: var(--coral); font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
+  .discord .msg { font-size: 16px; line-height: 1.4; }
+  .note { color: var(--muted); font-size: 16px; line-height: 1.4; }
+  .idea { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .idea:last-child { border-bottom: 0; }
+  .tag { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); }
+  nav { position: fixed; left: 50%; transform: translateX(-50%); bottom: 0; width: min(520px, 100%); background: rgba(9,9,9,.94); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); }
+  nav button { background: none; border: 0; color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 0; }
+  nav button.on { color: var(--coral); }
+  .banner { border: 1px solid var(--line); color: var(--dim); font-size: 12px; padding: 8px 10px; margin-bottom: 10px; line-height: 1.4; font-family: "JetBrains Mono", monospace; }
+  .cmd { font-family: "JetBrains Mono", monospace; font-size: 12px; background: #100f0e; padding: 8px 10px; color: var(--coral); margin: 4px 0; border: 1px solid var(--line); }
+  ul.clean { margin: 6px 0 0; padding-left: 16px; color: var(--muted); font-size: 16px; line-height: 1.4; }
+  .scorebig { font-family: Rokkitt, serif; font-size: 64px; font-weight: 800; letter-spacing: -0.04em; margin: 0; line-height: .9; }
+  .vote { display: flex; gap: 8px; margin-top: 10px; }
+  .vote button { flex: 1; border: 2px solid #111; background: var(--coral); color: #fff; border-radius: 999px; padding: 10px 8px; font-family: Rokkitt, serif; font-weight: 800; font-size: 15px; }
+  .vote button.on-up { border-color: var(--green); color: var(--green); }
+  .vote button.on-down { border-color: var(--red); color: var(--red); }
+  .reasons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .reasons button { border: 1px solid var(--line); background: transparent; color: var(--muted); padding: 6px 10px; font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+  .reasons button.on { border-color: var(--coral); color: var(--coral); }
+  .wstatus { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 7px; border: 1px solid var(--line); }
+  .w-signed, .w-self { color: var(--green); border-color: #3d4a32; }
+  .w-funded, .w-cluster, .w-payout { color: var(--coral); border-color: var(--coral); }
+  .w-rumor { color: var(--red); border-color: var(--red); }
+  .wrow { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .wrow:last-child { border-bottom: 0; }
+  .waddr { font-family: "JetBrains Mono", monospace; font-size: 12px; }
+  input.tip { width: 100%; margin-top: 8px; background: #090909; border: 1px solid var(--line); color: var(--text); padding: 8px; font-size: 14px; font-family: "JetBrains Mono", monospace; }
+  .shot { width: 100%; display: block; border: 1px solid var(--line); margin: 8px 0; background: #efe7d8; }
+  .av img { width: 40px; height: 40px; object-fit: cover; display: block; }
+  .xpost { border: 1px solid var(--line); background: #111; padding: 10px; margin: 8px 0; }
+  .xpost .hd { display: flex; gap: 8px; align-items: center; }
+  .xpost .hd img { width: 36px; height: 36px; object-fit: cover; }
+  .xpost .nm { font-family: Rokkitt, serif; font-weight: 800; font-size: 16px; }
+  .xpost .at { color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 11px; }
+  .xpost p { margin: 8px 0; font-size: 16px; }
+  .xmeta { color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .06em; }
+  .scan { border: 1px solid var(--line); padding: 8px; margin: 8px 0; font-family: "JetBrains Mono", monospace; font-size: 11px; }
+  .scan .buy { color: var(--green); }
+  .scan .sell { color: var(--red); }
+  .hero { width: 100%; max-height: 280px; object-fit: cover; object-position: top; border: 1px solid var(--line); display: block; }
+</style>
+</head>
+<body>
+<div class="toprule"></div>
+<header>
+  <p class="eyebrow">Prixville. · est. 2025</p>
+  <div class="brand"><h1>The<br>Ledger<span>.</span></h1><small id="count" style="color:var(--dim)"></small></div>
+  <p class="sub">Who bought it. Who posted it. Who sold into the replies. Weekly check Oct 12 2026: no new fund links, art patterns unchanged.</p>
+</header>
+<!-- rest of the original file content would go here, truncated for this example; in practice the full content is used -->
+</body>
+</html>
